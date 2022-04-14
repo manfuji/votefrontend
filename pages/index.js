@@ -34,7 +34,11 @@ const Home = () => {
       },
     }
     axios
-      .post('http://localhost:8000/api/login', formData, config)
+      .post(
+        'https://comculthero.pythonanywhere.com/api/login',
+        formData,
+        config
+      )
       .then((res) => {
         dispatchAction({
           type: AUTH,

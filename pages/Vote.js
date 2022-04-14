@@ -36,7 +36,11 @@ const Election = () => {
       },
     }
     axios
-      .post('http://localhost:8000/api/category/', body, config)
+      .post(
+        'https://comculthero.pythonanywhere.com/api/category/',
+        body,
+        config
+      )
       .then((res) => {
         setPresident(res.data)
       })
@@ -56,7 +60,11 @@ const Election = () => {
       },
     }
     axios
-      .post('http://localhost:8000/api/category/', body, config)
+      .post(
+        'https://comculthero.pythonanywhere.com/api/category/',
+        body,
+        config
+      )
       .then((res) => {
         setWocom(res.data)
         console.log(res.data)
@@ -78,7 +86,11 @@ const Election = () => {
       },
     }
     axios
-      .post('http://localhost:8000/api/category/', body, config)
+      .post(
+        'https://comculthero.pythonanywhere.com/api/category/',
+        body,
+        config
+      )
       .then((res) => {
         setSecretary(res.data)
         console.log(res.data)
@@ -100,7 +112,11 @@ const Election = () => {
       },
     }
     axios
-      .post('http://localhost:8000/api/category/', body, config)
+      .post(
+        'https://comculthero.pythonanywhere.com/api/category/',
+        body,
+        config
+      )
       .then((res) => {
         setTrasurer(res.data)
         console.log(res.data)
@@ -125,7 +141,11 @@ const Election = () => {
       },
     }
     axios
-      .post('http://localhost:8000/api/vote/', candidate, config)
+      .post(
+        'https://comculthero.pythonanywhere.com/api/vote/',
+        candidate,
+        config
+      )
       .then((res) => {
         // console.log(res.data)
         toast.success(res.data.message)
@@ -149,7 +169,11 @@ const Election = () => {
       },
     }
     axios
-      .post('http://localhost:8000/api/vote/', candidate, config)
+      .post(
+        'https://comculthero.pythonanywhere.com/api/vote/',
+        candidate,
+        config
+      )
       .then((res) => {
         toast.success(res.data.message)
       })
@@ -172,7 +196,11 @@ const Election = () => {
       },
     }
     axios
-      .post('http://localhost:8000/api/vote/', candidate, config)
+      .post(
+        'https://comculthero.pythonanywhere.com/api/vote/',
+        candidate,
+        config
+      )
       .then((res) => {
         toast.success(res.data.message)
       })
@@ -195,7 +223,11 @@ const Election = () => {
       },
     }
     axios
-      .post('http://localhost:8000/api/vote/', candidate, config)
+      .post(
+        'https://comculthero.pythonanywhere.com/api/vote/',
+        candidate,
+        config
+      )
       .then((res) => {
         toast.success(res.data.message)
       })
@@ -230,7 +262,7 @@ const Election = () => {
             >
               <div className="relative h-64 w-full">
                 <Image
-                  src={`http://localhost:8000${data.picture}`}
+                  src={`https://comculthero.pythonanywhere.com${data.picture}`}
                   alt="PUC Logo"
                   layout="fill"
                   objectFit="contain"
@@ -279,7 +311,7 @@ const Election = () => {
             >
               <div className="relative h-64 w-64">
                 <Image
-                  src={`http://localhost:8000${data.picture}`}
+                  src={`https://comculthero.pythonanywhere.com${data.picture}`}
                   alt="PUC Logo"
                   layout="fill"
                   objectFit="contain"
@@ -328,7 +360,7 @@ const Election = () => {
             >
               <div className="relative h-64 w-64">
                 <Image
-                  src={`http://localhost:8000${data.picture}`}
+                  src={`https://comculthero.pythonanywhere.com${data.picture}`}
                   alt="PUC Logo"
                   layout="fill"
                   objectFit="contain"
@@ -377,7 +409,7 @@ const Election = () => {
             >
               <div className="relative h-64 w-64">
                 <Image
-                  src={`http://localhost:8000${data.picture}`}
+                  src={`https://comculthero.pythonanywhere.com${data.picture}`}
                   alt="PUC Logo"
                   layout="fill"
                   objectFit="contain"
