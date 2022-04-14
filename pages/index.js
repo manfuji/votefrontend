@@ -3,8 +3,8 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { AUTH } from './context/constants'
-import { userState } from './context/context'
+import { userState } from '../components/context/context'
+import { AUTH } from '../components/context/constants'
 import Logo from './puc.jpg'
 
 const Home = () => {

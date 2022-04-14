@@ -1,7 +1,7 @@
 import { ToastContainer } from 'react-toastify'
 import '../styles/globals.css'
-import UserContext from './context/context'
 import 'react-toastify/dist/ReactToastify.css'
+import UserContext from '../components/context/context'
 function MyApp({ Component, pageProps }) {
   return (
     <UserContext>

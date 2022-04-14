@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import { userState } from './context/context'
+import { userState } from '../components/context/context'
 
 import Logo from './puc.jpg'
 
