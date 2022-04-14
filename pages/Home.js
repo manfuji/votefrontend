@@ -18,7 +18,7 @@ const Instruction = () => {
       <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
         <span className="text-3xl font-bold capitalize text-green-700">
           Welcome {user.username}, to{' '}
-          <h1 className="">EP University Voting Portal</h1>
+          <h1 className="">presbyterian University Voting Portal(TEMA)</h1>
         </span>
 
         <p className="mt-3 text-2xl">

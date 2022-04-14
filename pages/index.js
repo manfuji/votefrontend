@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { userState } from '../components/context/context'
 import { AUTH } from '../components/context/constants'
 import Logo from './puc.jpg'
+import { toast } from 'react-toastify'
 
 const Home = () => {
   const { user, dispatchAction } = userState()
@@ -47,11 +48,11 @@ const Home = () => {
             username: res.data.user.username,
           },
         })
-        console.log(res.data)
+        toast.success('Login Successfully')
         router.push('/Home')
       })
       .catch((err) => {
-        console.log(err.response.data)
+        toast.error('Invalid Credentials')
       })
     // console.log(user)
   }
