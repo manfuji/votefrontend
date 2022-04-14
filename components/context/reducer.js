@@ -1,4 +1,4 @@
-import { AUTH, AUTH_FAILED } from './constants'
+import { AUTH, AUTH_FAILED, LOGOUT } from './constants'
 
 export const Reducer = (state, action) => {
   switch (action.type) {
@@ -12,6 +12,7 @@ export const Reducer = (state, action) => {
       }
 
     case AUTH_FAILED:
+    case LOGOUT:
       return {
         ...state,
         isAuthenticated: false,

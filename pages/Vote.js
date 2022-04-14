@@ -2,14 +2,17 @@ import axios from 'axios'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
+import { LOGOUT } from '../components/context/constants'
 import { userState } from '../components/context/context'
 
 import Logo from './puc.jpg'
 
 const Election = () => {
-  const { user } = userState()
+  const router = useRouter()
+  const { user, dispatchAction } = userState()
   const [president, setPresident] = useState([])
   const [candidate, setCandidate] = useState({
     candidate_name: '',
@@ -25,6 +28,12 @@ const Election = () => {
       [e.target.name]: e.target.value,
     })
   }
+  //protected router
+  useEffect(() => {
+    if (user.isAuthenticated === false) {
+      router.push('/')
+    }
+  }, [])
   // president
   useEffect(() => {
     const body = {
@@ -246,6 +255,18 @@ const Election = () => {
         <ul className="flex flex-row justify-between md:px-56">
           <li>Your Vote is Your Power</li>
           <li>PUC E-VOTING</li>
+          <li>
+            <Link
+              href="/"
+              onClick={() =>
+                dispatchAction({
+                  type: LOGOUT,
+                })
+              }
+            >
+              <a className="font-bold tracking-wider text-red-600">Logout</a>
+            </Link>
+          </li>
 
           <li>Student ID: {user.username}</li>
         </ul>

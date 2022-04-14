@@ -1,13 +1,21 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import { userState } from '../components/context/context'
 
 import Logo from './puc.jpg'
 
 const Instruction = () => {
+  const router = useRouter()
   const { user, dispatchAction } = userState()
   console.log(user)
+  useEffect(() => {
+    if (user.isAuthenticated === false) {
+      router.push('/')
+    }
+  }, [])
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
       <Head>
