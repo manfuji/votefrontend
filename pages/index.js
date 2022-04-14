@@ -62,14 +62,15 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex w-full flex-1 flex-col items-center justify-center bg-slate-50 px-20 pb-20 text-center shadow-lg">
+      <main className="flex w-full flex-1 flex-col items-center justify-center bg-slate-50 pb-20 text-center shadow-lg md:px-20">
         <span className="mt-8 text-3xl font-bold">
-          Welcome to <h1 className="text-green-700">EP University E-Voting</h1>
+          Welcome to{' '}
+          <h1 className="text-green-700">Presbyterian University E-Voting</h1>
         </span>
 
         <form
           onSubmit={handleSubmit}
-          className="mt-6 flex max-w-4xl flex-col flex-wrap items-center justify-around space-y-6    rounded-md bg-gray-200 px-24 py-10 shadow-xl   sm:w-full"
+          className="mt-6 flex w-full flex-col flex-wrap items-center justify-around space-y-6 rounded-md bg-gray-200  px-2 py-10 shadow-xl sm:w-full md:max-w-4xl   md:px-24"
         >
           <span className="mt-4 text-5xl font-bold">
             <h1 className="text-green-700">Login Form</h1>
@@ -109,7 +110,7 @@ const Home = () => {
               onChange={handleChange}
             />
           </div>
-          <button className="w-1/2 rounded bg-green-600 px-16 py-2 text-xl font-bold text-white outline-none  hover:bg-green-500 hover:shadow-lg ">
+          <button className="w-full rounded bg-green-600 px-16 py-2 text-xl font-bold text-white outline-none  hover:bg-green-500 hover:shadow-lg ">
             Login
           </button>
         </form>
