@@ -244,6 +244,11 @@ const Election = () => {
         toast.error(err.response.data.message)
       })
   }
+  const Logout = (e) => {
+    e.preventDefault()
+    window.location.reload()
+    // router.push('/')
+  }
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">
       <Head>
@@ -251,21 +256,19 @@ const Election = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className=" sticky top-0 z-50 mb-8 w-full bg-slate-700 py-7 text-lg font-bold uppercase text-gray-100 md:text-2xl">
+      <div className=" sticky top-0 z-50 mb-8 w-full bg-slate-700 py-7 text-lg font-bold uppercase text-gray-100 md:text-xl">
         <ul className="flex flex-row justify-between md:px-56">
           <li>Your Vote is Your Power</li>
           <li>PUC E-VOTING</li>
           <li>
-            <Link
-              href="/"
-              onClick={() =>
-                dispatchAction({
-                  type: LOGOUT,
-                })
-              }
+            {/* <Link href="/" > */}
+            <a
+              className="mr-4 cursor-pointer font-bold tracking-wider text-red-600"
+              onClick={Logout}
             >
-              <a className="font-bold tracking-wider text-red-600">Logout</a>
-            </Link>
+              Logout
+            </a>
+            {/* </Link> */}
           </li>
 
           <li>Student ID: {user.username}</li>
@@ -273,7 +276,7 @@ const Election = () => {
       </div>
       <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
         <span className="text-3xl font-bold uppercase text-green-700">
-          Presidential Election
+          SRC Presidential Aspirant
         </span>
         <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full">
           {president.map((data) => (
@@ -322,7 +325,7 @@ const Election = () => {
         </div>
         {/* wocom selections  */}
         <span className="mt-8 text-3xl font-bold uppercase text-green-700">
-          Women's Commision Election
+          SRC Women's Commision Aspirant
         </span>
         <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full">
           {wocom.map((data) => (
@@ -371,7 +374,7 @@ const Election = () => {
         </div>
         {/* secretary */}
         <span className="mt-8 text-3xl font-bold uppercase text-green-700">
-          Secretary Election
+          SRC Secretary Election Aspirant
         </span>
         <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full">
           {secretary.map((data) => (
@@ -420,7 +423,7 @@ const Election = () => {
         </div>
         {/* Trasure / */}
         <span className="mt-8 text-3xl font-bold uppercase text-green-700">
-          Trasurer Election
+          SRC Trasurer Election Aspirant
         </span>
         <div className="mt-6 flex max-w-4xl   flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full">
           {trasurer.map((data) => (

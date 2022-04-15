@@ -14,7 +14,6 @@ export const Reducer = (state, action) => {
     case AUTH_FAILED:
     case LOGOUT:
       return {
-        ...state,
         isAuthenticated: false,
         isAdmin: false,
         token: '',

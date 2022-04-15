@@ -26,7 +26,9 @@ const Instruction = () => {
       <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
         <span className="text-3xl font-bold capitalize text-green-700">
           Welcome {user.username}, to{' '}
-          <h1 className="">presbyterian University Voting Portal(TEMA)</h1>
+          <h1 className="">
+            presbyterian University College (Tema Campus) Voting Portal
+          </h1>
         </span>
 
         <p className="mt-3 text-2xl">
@@ -42,19 +44,18 @@ const Instruction = () => {
               How To Vote &rarr;
             </h3>
             <p className="mt-4 text-xl">
-              You are to select the person you want to vote for, and then press
-              the vote button to cast the vote. After that wait for the next
-              page to continue voting
+              Simply select your favorate candidate to vote for, and press the
+              vote button to cast your vote. scroll down and continue voting
             </p>
           </span>
 
           <span className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600">
             <h3 className="text-2xl font-bold text-red-700">Warning &rarr;</h3>
             <p className="mt-4 text-xl">
-              Please when you are done voting you can't vote again,
+              Please when you are done voting you logout from the system.
               <span className="text-xl font-bold text-red-600">
-                You can only vote once !! after clickng on vote thus all you
-                cannot vote again
+                {' '}
+                Every individual is allowed to vote once!!
               </span>
             </p>
           </span>
