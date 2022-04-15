@@ -274,11 +274,11 @@ const Election = () => {
           <li>Student ID: {user.username}</li>
         </ul>
       </div>
-      <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
+      <main className="flex w-full flex-1 flex-col items-center justify-center text-center md:px-20">
         <span className="text-3xl font-bold uppercase text-green-700">
           SRC Presidential Aspirant
         </span>
-        <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full">
+        <div className="mt-6 flex w-full flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full md:max-w-4xl">
           {president.map((data) => (
             <div
               key={data.name}
@@ -327,7 +327,7 @@ const Election = () => {
         <span className="mt-8 text-3xl font-bold uppercase text-green-700">
           SRC Women's Commision Aspirant
         </span>
-        <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full">
+        <div className="mt-6 flex w-full flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full md:max-w-4xl">
           {wocom.map((data) => (
             <div
               key={data.name}
@@ -376,7 +376,7 @@ const Election = () => {
         <span className="mt-8 text-3xl font-bold uppercase text-green-700">
           SRC Secretary Election Aspirant
         </span>
-        <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full">
+        <div className="mt-6 flex w-full flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full md:max-w-4xl">
           {secretary.map((data) => (
             <div
               key={data.name}
@@ -425,7 +425,7 @@ const Election = () => {
         <span className="mt-8 text-3xl font-bold uppercase text-green-700">
           SRC Trasurer Election Aspirant
         </span>
-        <div className="mt-6 flex max-w-4xl   flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full">
+        <div className="mt-6 flex w-full flex-wrap  items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full md:max-w-4xl">
           {trasurer.map((data) => (
             <div
               key={data.name}

@@ -29,31 +29,37 @@ const Home = () => {
   }
   const handleSubmit = (e) => {
     e.preventDefault()
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-    axios
-      .post(
-        'https://comculthero.pythonanywhere.com/api/login',
-        formData,
-        config
-      )
-      .then((res) => {
-        dispatchAction({
-          type: AUTH,
-          payload: {
-            token: res.data.token,
-            username: res.data.user.username,
-          },
+    if (formData.username === '') {
+      toast.error('Student ID field is empty')
+    } else if (formData.password === '') {
+      toast.error('password field is empty')
+    } else {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+      axios
+        .post(
+          'https://comculthero.pythonanywhere.com/api/login',
+          formData,
+          config
+        )
+        .then((res) => {
+          dispatchAction({
+            type: AUTH,
+            payload: {
+              token: res.data.token,
+              username: res.data.user.username,
+            },
+          })
+          toast.success('Login Successfully')
+          router.push('/Home')
         })
-        toast.success('Login Successfully')
-        router.push('/Home')
-      })
-      .catch((err) => {
-        toast.error('Invalid Credentials')
-      })
+        .catch((err) => {
+          toast.error('Invalid Credentials')
+        })
+    }
     // console.log(user)
   }
   return (
