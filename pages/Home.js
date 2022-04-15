@@ -23,15 +23,15 @@ const Instruction = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        <span className="text-3xl font-bold capitalize text-green-700">
+      <main className="flex w-full flex-1 flex-col items-center justify-center text-center md:px-20">
+        <span className="text-xl font-bold capitalize text-green-700 md:text-2xl">
           Welcome {user.username}, to{' '}
           <h1 className="">
             presbyterian University College (Tema Campus) Voting Portal
           </h1>
         </span>
 
-        <p className="mt-3 text-2xl">
+        <p className="mt-3 w-full text-2xl">
           Please kindly take the following instructions seriously
           <p className="rounded-md bg-gray-100 p-3 font-mono text-2xl">
             and abide by them. Thank you
