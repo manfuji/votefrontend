@@ -52,7 +52,7 @@ const Instruction = () => {
           <span className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600">
             <h3 className="text-2xl font-bold text-red-700">Warning &rarr;</h3>
             <p className="mt-4 text-xl">
-              Please when you are done voting you logout from the system.
+              Please when you are done voting, then logout from the system.
               <span className="text-xl font-bold text-red-600">
                 {' '}
                 Every individual is allowed to vote once!!

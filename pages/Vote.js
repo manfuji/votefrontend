@@ -325,7 +325,7 @@ const Election = () => {
         </div>
         {/* wocom selections  */}
         <span className="mt-8 text-3xl font-bold uppercase text-green-700">
-          SRC Women's Commision Aspirant
+          SRC Women's Commisioner Aspirant
         </span>
         <div className="mt-6 flex w-full flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full md:max-w-4xl">
           {wocom.map((data) => (
