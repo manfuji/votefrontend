@@ -82,8 +82,8 @@ const Home = () => {
           onSubmit={handleSubmit}
           className="mt-6 flex w-full flex-col flex-wrap items-center justify-around space-y-6 rounded-md bg-gray-200  px-2 py-10 shadow-xl shadow-gray-300 sm:w-full md:max-w-2xl   md:px-24"
         >
-          <span className="mt-4 text-5xl font-bold">
-            <h1 className="text-green-700">Login Form</h1>
+          <span className="mt-4 text-3xl font-bold">
+            <h1 className="uppercase text-green-700">Login Form</h1>
           </span>
           <div className="relative h-40 w-40 rounded">
             <Image
