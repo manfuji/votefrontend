@@ -374,7 +374,7 @@ const Election = () => {
         </div>
         {/* secretary */}
         <span className="mt-8 text-3xl font-bold uppercase text-green-700">
-          SRC Secretary Election Aspirant
+          SRC Secretary Aspirant
         </span>
         <div className="mt-6 flex w-full flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full md:max-w-4xl">
           {secretary.map((data) => (
@@ -423,7 +423,7 @@ const Election = () => {
         </div>
         {/* Trasure / */}
         <span className="mt-8 text-3xl font-bold uppercase text-green-700">
-          SRC Trasurer Election Aspirant
+          SRC Trasurer Aspirant
         </span>
         <div className="mt-6 flex w-full flex-wrap  items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full md:max-w-4xl">
           {trasurer.map((data) => (
