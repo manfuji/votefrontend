@@ -423,7 +423,7 @@ const Election = () => {
         </div>
         {/* Trasure / */}
         <span className="mt-8 text-3xl font-bold uppercase text-green-700">
-          SRC Trasurer Aspirant
+          SRC Treasurer Aspirant
         </span>
         <div className="mt-6 flex w-full flex-wrap  items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full md:max-w-4xl">
           {trasurer.map((data) => (
