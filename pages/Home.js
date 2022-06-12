@@ -66,6 +66,13 @@ const Instruction = () => {
               </a>
             </Link>
           </span>
+          <span className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600">
+            <Link href="/Result">
+              <a className="text-2xl font-bold capitalize text-blue-700">
+                Procceed to check Result &rarr;
+              </a>
+            </Link>
+          </span>
         </div>
       </main>
 
