@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { userState } from '../components/context/context'
 
-import Logo from './puc.jpg'
+import Logo from './htu_logo.png'
 
 const Instruction = () => {
   const router = useRouter()
@@ -24,10 +24,11 @@ const Instruction = () => {
       </Head>
 
       <main className="flex w-full flex-1 flex-col items-center justify-center text-center md:px-20">
-        <span className="text-xl font-bold capitalize text-green-700 md:text-2xl">
+        <span className="text-xl font-bold capitalize text-blue-700 md:text-2xl">
           Welcome {user.username}, to{' '}
           <h1 className="">
-            presbyterian University College (Tema Campus) Voting Portal
+            HTU COMPUTER SCIENCE DEPARTMENT <br />
+             ( COMPSA) Voting Portal
           </h1>
         </span>
 
@@ -83,7 +84,7 @@ const Instruction = () => {
           rel="noopener noreferrer"
         >
           Powered by{' '}
-          <Image src={Logo} alt="Vercel Logo" width={50} height={50} />
+          <Image src={Logo} alt="Vercel Logo" width={130} height={50} />
         </a>
       </footer>
     </div>

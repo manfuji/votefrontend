@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { LOGOUT } from '../components/context/constants'
 import { userState } from '../components/context/context'
+import { DoubleBounce } from 'better-react-spinkit'
 
 import Logo from './puc.jpg'
 
@@ -14,6 +15,7 @@ const Election = () => {
   const router = useRouter()
   const { user, dispatchAction } = userState()
   const [president, setPresident] = useState([])
+  const [isLoading,setIsLoading] = useState(true)
   const [candidate, setCandidate] = useState({
     candidate_name: '',
     candidate_position: '',
@@ -51,6 +53,7 @@ const Election = () => {
         config
       )
       .then((res) => {
+        setIsLoading(false)
         setPresident(res.data)
       })
       .catch((err) => {
@@ -247,7 +250,7 @@ const Election = () => {
   const Logout = (e) => {
     e.preventDefault()
     window.location.reload()
-    // router.push('/')
+    router.push('/')
   }
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">
@@ -258,8 +261,7 @@ const Election = () => {
 
       <div className=" sticky top-0 z-50 mb-8 w-full bg-slate-700 py-7 text-lg font-bold uppercase text-gray-100 md:text-xl">
         <ul className="flex flex-row justify-between md:px-56">
-          <li>Your Vote is Your Power</li>
-          <li>PUC E-VOTING</li>
+          
           <li>
             {/* <Link href="/" > */}
             <a
@@ -270,12 +272,28 @@ const Election = () => {
             </a>
             {/* </Link> */}
           </li>
+          <li>
+            {/* <Link href="/" > */}
+            <a
+              className="mr-4 cursor-pointer font-bold tracking-wider text-green-600"
+              onClick={(e)=>{
+                e.preventDefault()
+                router.push('Home')
+              }}
+            >
+              Go Back
+            </a>
+            {/* </Link> */}
+          </li>
 
           <li>Student ID: {user.username}</li>
         </ul>
       </div>
       <main className="flex w-full flex-1 flex-col items-center justify-center text-center md:px-20">
-        <span className="text-3xl font-bold uppercase text-green-700">
+        {!isLoading ?(
+          <>
+        <h1 className=' uppercase font-bold text-center mb-6'>Candidates</h1>
+        <span className="text-3xl font-bold uppercase text-blue-700">
           SRC Presidential Aspirant
         </span>
         <div className="mt-6 flex w-full flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full md:max-w-4xl">
@@ -293,7 +311,7 @@ const Election = () => {
                   className="absolute z-10 h-full w-full"
                 />
               </div>
-              <h3 className="text-2xl font-bold uppercase text-green-700">
+              <h3 className="text-2xl font-bold uppercase text-blue-700">
                 {data.name}
               </h3>
               <p className=" mt-4 text-justify text-xl uppercase">
@@ -315,7 +333,7 @@ const Election = () => {
                 </div>
                 <button
                   type="submit"
-                  className=" mt-6 rounded bg-green-700 text-white ring ring-green-600"
+                  className=" mt-6 rounded bg-blue-700 text-white ring ring-blue-600"
                 >
                   Cast Vote{' '}
                 </button>
@@ -324,7 +342,7 @@ const Election = () => {
           ))}
         </div>
         {/* wocom selections  */}
-        <span className="mt-8 text-3xl font-bold uppercase text-green-700">
+        <span className="mt-8 text-3xl font-bold uppercase text-blue-700">
           SRC Women's Commisioner Aspirant
         </span>
         <div className="mt-6 flex w-full flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full md:max-w-4xl">
@@ -342,7 +360,7 @@ const Election = () => {
                   className="absolute h-full w-full"
                 />
               </div>
-              <h3 className="text-2xl font-bold uppercase text-green-700">
+              <h3 className="text-2xl font-bold uppercase text-blue-700">
                 {data.name}
               </h3>
               <p className=" mt-4 text-justify text-xl uppercase">
@@ -364,7 +382,7 @@ const Election = () => {
                 </div>
                 <button
                   type="submit"
-                  className=" mt-6 rounded bg-green-700 text-white ring ring-green-600"
+                  className=" mt-6 rounded bg-blue-700 text-white ring ring-blue-600"
                 >
                   Cast Vote{' '}
                 </button>
@@ -373,7 +391,7 @@ const Election = () => {
           ))}
         </div>
         {/* secretary */}
-        <span className="mt-8 text-3xl font-bold uppercase text-green-700">
+        <span className="mt-8 text-3xl font-bold uppercase text-blue-700">
           SRC Secretary Aspirant
         </span>
         <div className="mt-6 flex w-full flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full md:max-w-4xl">
@@ -391,7 +409,7 @@ const Election = () => {
                   className="absolute h-full w-full"
                 />
               </div>
-              <h3 className="text-2xl font-bold uppercase text-green-700">
+              <h3 className="text-2xl font-bold uppercase text-blue-700">
                 {data.name}
               </h3>
               <p className=" mt-4 text-justify text-xl uppercase">
@@ -413,7 +431,7 @@ const Election = () => {
                 </div>
                 <button
                   type="submit"
-                  className=" mt-6 rounded bg-green-700 text-white ring ring-green-600"
+                  className=" mt-6 rounded bg-blue-700 text-white ring ring-blue-600"
                 >
                   Cast Vote{' '}
                 </button>
@@ -422,7 +440,7 @@ const Election = () => {
           ))}
         </div>
         {/* Trasure / */}
-        <span className="mt-8 text-3xl font-bold uppercase text-green-700">
+        <span className="mt-8 text-3xl font-bold uppercase text-blue-700">
           SRC Treasurer Aspirant
         </span>
         <div className="mt-6 flex w-full flex-wrap  items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full md:max-w-4xl">
@@ -440,7 +458,7 @@ const Election = () => {
                   className="absolute h-full w-full"
                 />
               </div>
-              <h3 className="text-2xl font-bold uppercase text-green-700">
+              <h3 className="text-2xl font-bold uppercase text-blue-700">
                 {data.name}
               </h3>
               <p className=" mt-4 text-justify text-xl uppercase">
@@ -462,7 +480,7 @@ const Election = () => {
                 </div>
                 <button
                   type="submit"
-                  className=" mt-6 rounded bg-green-700 text-white ring ring-green-600"
+                  className=" mt-6 rounded bg-blue-700 text-white ring ring-blue-600"
                 >
                   Cast Vote{' '}
                 </button>
@@ -470,6 +488,11 @@ const Election = () => {
             </div>
           ))}
         </div>
+</>
+
+        ):(
+          <DoubleBounce size={30} color={'green'} />
+        )}
       </main>
 
       <footer className="flex h-24 w-full items-center justify-center border-t">

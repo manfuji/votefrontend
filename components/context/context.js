@@ -3,6 +3,7 @@ import Reducer from './reducer'
 
 const appData = createContext()
 const UserContext = ({ children }) => {
+  // const state_token = localStorage.getItem('')
   const [user, dispatchAction] = useReducer(Reducer, {
     token: '',
     isAuthenticated: false,

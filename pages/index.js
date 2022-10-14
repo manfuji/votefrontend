@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { userState } from '../components/context/context'
 import { AUTH } from '../components/context/constants'
-import Logo from './puc.jpg'
+import Logo from './htu_logo.png'
 import { toast } from 'react-toastify'
 
 const Home = () => {
@@ -70,27 +70,28 @@ const Home = () => {
       </Head>
 
       <main className="flex w-full flex-1 flex-col items-center justify-center bg-slate-50 pb-20 text-center shadow-lg md:px-20">
-        <span className="mt-8 text-3xl font-semibold">
-          Welcome to{' '}
-          <h1 className="text-green-700">
+        <span className="mt-8 text-lg md:text-3xl font-semibold">
+          Welcome to{' '} <br />
+          <span className="text-blue-700">
             Presbyterian University College{' '}
+            
             <p className="font-bold uppercase">Tema Campus SRC Election</p>
-          </h1>
+            </span>
         </span>
 
         <form
           onSubmit={handleSubmit}
-          className="mt-6 flex w-full flex-col flex-wrap items-center justify-around space-y-6 rounded-md bg-gray-200  px-2 py-10 shadow-xl shadow-gray-300 sm:w-full md:max-w-2xl   md:px-24"
+          className="mt-6 flex w-full flex-col flex-wrap items-center justify-around space-y-6 rounded-md bg-gray-200  px-2 md:py-20 py-16 shadow-xl shadow-gray-300 w-full sm:w-full md:max-w-2xl md:px-24"
         >
           <span className="mt-4 text-3xl font-bold">
-            <h1 className="uppercase text-green-700">Login Form</h1>
+            <h1 className="uppercase text-blue-700">Login Form</h1>
           </span>
-          <div className="relative h-40 w-40 rounded">
+          <div className="relative h-20 w-80 rounded">
             <Image
               src={Logo}
               alt="PUC Logo"
               objectFit="contain"
-              className="absolute h-40 w-40 rounded-xl"
+              className="absolute h-20 w-80 rounded-xl"
             />
           </div>
           <div>
@@ -115,12 +116,12 @@ const Home = () => {
               className="my-2 rounded-xl py-2 px-10 placeholder-slate-700 outline-none ring-1 ring-blue-500"
               type="password"
               name="password"
-              placeholder="***********"
+              placeholder="Index Number + OTP"
               value={formData.password}
               onChange={handleChange}
             />
           </div>
-          <button className="w-3/4 rounded bg-green-600 px-16 py-2 text-xl font-bold text-white outline-none  hover:bg-green-500 hover:shadow-lg ">
+          <button className="w-3/4 rounded bg-blue-600 px-16 py-2 text-xl font-bold text-white outline-none  hover:bg-blue-500 hover:shadow-lg ">
             Login
           </button>
         </form>
@@ -133,7 +134,7 @@ const Home = () => {
           rel="noopener noreferrer"
         >
           Powered by{' '}
-          <Image src={Logo} alt="Vercel Logo" width={50} height={50} />
+          <Image src={Logo} alt="Vercel Logo" width={130} height={50} />
         </a>
       </footer>
     </div>
