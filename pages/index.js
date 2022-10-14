@@ -70,13 +70,12 @@ const Home = () => {
       </Head>
 
       <main className="flex w-full flex-1 flex-col items-center justify-center bg-slate-50 pb-20 text-center shadow-lg md:px-20">
-        <span className="mt-8 text-lg md:text-3xl font-semibold">
-          Welcome to{' '} <br />
-          <span className="text-blue-700">
-            Presbyterian University College{' '}
-            
-            <p className="font-bold uppercase">Tema Campus SRC Election</p>
-            </span>
+      <span className="text-xl font-bold capitalize text-blue-700 md:text-2xl">
+          Welcome {user.username}, to{' '}
+          <h1 className="">
+            HTU COMPUTER SCIENCE DEPARTMENT <br />
+             ( COMPSA) Voting Portal
+          </h1>
         </span>
 
         <form
