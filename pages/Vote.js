@@ -158,7 +158,7 @@ const Election = () => {
           </li>
         </ul>
       </div>
-      <main className="flex w-full flex-1 flex-col items-center justify-center text-center md:px-20">
+      <main className="flex w-full flex-1 space-y-6 flex-col items-center justify-center text-center md:px-20">
         {!isLoading ? (
           <>
             <h1 className=" mb-6 mt-3 text-center text-3xl font-bold uppercase">
