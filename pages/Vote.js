@@ -177,9 +177,9 @@ const Election = () => {
                       // {position?.candidates?.map((data) => (
                       <div
                         key={data.name}
-                        className="mt-6 flex h-96 w-72 flex-col flex-wrap items-center justify-between rounded-xl border bg-gray-50 p-2 text-left shadow-xl "
+                        className="mt-6 flex mx-4 h-96 w-72 flex-col flex-wrap items-center justify-between rounded-xl border bg-gray-50 p-2 text-left shadow-xl "
                       >
-                        <div className="relative sm:h-52 h-44 w-full">
+                        <div className="relative h-44 w-full">
                           <Image
                             src={data.image}
                             alt="PUC Logo"
@@ -188,7 +188,7 @@ const Election = () => {
                             className="absolute z-10 h-full w-full"
                           />
                         </div>
-                        <h3 className="sm:text-lg text-center font-bold uppercase text-blue-700">
+                        <h3 className="text-center font-semibold uppercase text-blue-700">
                           {data.name}
                         </h3>
                         {/* <p className=" mt-4 text-justify text-xl uppercase">
