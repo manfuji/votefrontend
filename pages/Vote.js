@@ -20,19 +20,22 @@ const Election = () => {
   const positionRef = useRef(null)
   const [candidate, setCandidate] = useState({
     candidate_name: 0,
-    candidate_position: '',
   })
   const [allCandidates, setAllCandidates] = useState([])
   const [secretary, setSecretary] = useState([])
   const [wocom, setWocom] = useState([])
 
   const [trasurer, setTrasurer] = useState([])
+  // casting a vote chnages
   const handleChange = (e) => {
     setCandidate({
       ...candidate,
       [e.target.name]: e.target.value,
     })
   }
+  // end
+
+
   //protected router
   useEffect(() => {
     if (user.isAuthenticated === false) {
@@ -40,12 +43,13 @@ const Election = () => {
     }
   }, [])
   // handle submit vote
-   //   const { user, dispatchAction } = userState()
-   const handleSubmit = (e) => {
+  //   const { user, dispatchAction } = userState()
+  const handleSubmit = (e) => {
     e.preventDefault()
     if (candidate.candidate_name === '') {
-      alert('please select a candidate')
+    toast.info('please select a candidate')
     }
+
     // candidate.candidate_position = 'President'
     console.log(candidate)
     const config = {
@@ -54,21 +58,25 @@ const Election = () => {
         Authorization: `Token ${user.token}`,
       },
     }
+    const body = {
+      option : parseInt(candidate.candidate_name)
+    }
+    console.log(body)
     axios
-      .post(
-        'https://polls.pythonanywhere.com/api/votes/',
-        candidate,
-        config
-      )
+      .post('https://polls.pythonanywhere.com/api/votes/', body, config)
       .then((res) => {
-        // console.log(res.data)
-        toast.success(res.data.message)
+        console.log(res.data.option)
+        setCandidate({candidate_name: 0})
+        toast.info(res.data.message)
       })
       .catch((err) => {
-        toast.error(err.response.data.message)
+        console.log(err)
+        setCandidate({candidate_name: 0})
+
+        toast.error("You already voted for this position")
       })
   }
-
+// end
   // president
   useEffect(() => {
     // fetching all positions available
@@ -76,6 +84,8 @@ const Election = () => {
       .get('https://polls.pythonanywhere.com/api/polls/')
       .then((res) => {
         setPositions(res.data)
+        setIsLoading(false)
+
       })
       .catch((err) => {
         console.log(err)
@@ -89,15 +99,13 @@ const Election = () => {
       },
     }
     axios
-      .get(
-        'https://polls.pythonanywhere.com/api/candidates/',
-        CandidateConfig
-      )
+      .get('https://polls.pythonanywhere.com/api/candidates/', CandidateConfig)
       .then((res) => {
         // console.log(res.data)
         console.log(res.data)
         setAllCandidates(res.data)
         toast.success(res.data.message)
+        setIsLoading(false)
       })
       .catch((err) => {
         toast.error(err.response.data.message)
@@ -105,30 +113,9 @@ const Election = () => {
 
     // end
 
-    const body = {
-      positions: 'President',
-    }
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-    axios
-      .post(
-        'https://comculthero.pythonanywhere.com/api/category/',
-        body,
-        config
-      )
-      .then((res) => {
-        setIsLoading(false)
-        setPresident(res.data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+   
   }, [])
-  
+
   const Logout = (e) => {
     e.preventDefault()
     window.location.reload()
@@ -174,68 +161,66 @@ const Election = () => {
       <main className="flex w-full flex-1 flex-col items-center justify-center text-center md:px-20">
         {!isLoading ? (
           <>
-           <h1 className=" mb-6 text-center font-bold uppercase">
-                  Candidates
-                </h1>
-            {positions.map((position,index) => (
-              <>
-               
-                <span className="text-3xl font-bold uppercase text-blue-700 mt-6">
+            <h1 className=" mb-6 mt-3 text-center text-3xl font-bold uppercase">
+              Candidates
+            </h1>
+            {positions.map((position, index) => (
+              <div key={index}>
+                <span className="mt-6 text-3xl font-bold uppercase text-blue-700">
                   {position.title}
                 </span>
-                <form>
-                  <div ref={positionRef} onClick={()=>console.log(index)} />
-                </form>
+
                 <div className="mt-6 flex w-full flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full md:max-w-4xl">
-                {allCandidates.filter((candidate) => candidate.position===position.id).map((data) => (
-                  // {position?.candidates?.map((data) => (
-                    <div
-                      key={data.name}
-                      className="mt-6 flex w-72 h-96 flex-col flex-wrap items-center justify-between rounded-xl border bg-gray-50 p-2 text-left shadow-xl "
-                    >
-                      
-                      <div className="relative h-52 w-full">
-                        <Image
-                          src={`https://comculthero.pythonanywhere.com/media/candidates/IMG-20220609-WA0006.jpg`}
-                          alt="PUC Logo"
-                          layout="fill"
-                          objectFit="contain"
-                          className="absolute z-10 h-full w-full"
-                        />
-                      </div>
-                      <h3 className="text-l text-center font-bold uppercase text-blue-700">
-                        {data.name}
-                      </h3>
-                      <p className=" mt-4 text-justify text-xl uppercase">
-                        {data.description}
-                      </p>
-                      <form className="flex flex-col" onSubmit={handleSubmit}>
-                        <div className=" flex flex-row space-x-4">
-                          <label className="text-xl font-semibold capitalize">
-                            {' '}
-                            Select to vote:
-                          </label>
-                          <input
-                            type="radio"
-                            className=" mt-1 h-6 w-6 outline-none"
-                            name="candidate_name"
-                            value={data.id}
-                            onChange={handleChange}
+                  {allCandidates
+                    .filter((candidate) => candidate.position === position.id)
+                    .map((data) => (
+                      // {position?.candidates?.map((data) => (
+                      <div
+                        key={data.name}
+                        className="mt-6 flex h-96 w-72 flex-col flex-wrap items-center justify-between rounded-xl border bg-gray-50 p-2 text-left shadow-xl "
+                      >
+                        <div className="relative sm:h-52 h-44 w-full">
+                          <Image
+                            src={data.image}
+                            alt="PUC Logo"
+                            layout="fill"
+                            objectFit="contain"
+                            className="absolute z-10 h-full w-full"
                           />
-                           
                         </div>
-                        <button
-                          type="submit"
-                          onClick={()=>positionRef.current.click()}
-                          className=" mt-6 rounded bg-blue-700 text-white ring ring-blue-600"
-                        >
-                          Cast Vote{' '}
-                        </button>
-                      </form>
-                    </div>
-                  ))}
+                        <h3 className="sm:text-lg text-center font-bold uppercase text-blue-700">
+                          {data.name}
+                        </h3>
+                        {/* <p className=" mt-4 text-justify text-xl uppercase">
+                          {data.description}
+                        </p> */}
+                        <form className="flex flex-col" onSubmit={handleSubmit}>
+                          <div className=" flex flex-row space-x-4">
+                            <label className="md:text-xl font-semibold capitalize">
+                              {' '}
+                              Select to vote:
+                            </label>
+                            <input
+                              type="radio"
+                              className=" mt-1 h-6 w-6 outline-none"
+                              name="candidate_name"
+                              value={data.id}
+                              // checked={candidate.candidate_name !==null}
+                              disabled={candidate.candidate_name !==0?true:false}
+                              onChange={handleChange}
+                            />
+                          </div>
+                          <button
+                            type="submit"
+                            className=" mt-4 rounded bg-blue-700 text-white ring ring-blue-600"
+                          >
+                            Cast Vote{' '}
+                          </button>
+                        </form>
+                      </div>
+                    ))}
                 </div>
-              </>
+              </div>
             ))}
           </>
         ) : (
