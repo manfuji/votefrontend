@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { LOGOUT } from '../components/context/constants'
 import { userState } from '../components/context/context'
@@ -14,12 +14,15 @@ import Logo from './puc.jpg'
 const Election = () => {
   const router = useRouter()
   const { user, dispatchAction } = userState()
-  const [president, setPresident] = useState([])
-  const [isLoading,setIsLoading] = useState(true)
+  const [candidatePosition, setCandidatePosition] = useState()
+  const [isLoading, setIsLoading] = useState(true)
+  const [positions, setPositions] = useState([])
+  const positionRef = useRef(null)
   const [candidate, setCandidate] = useState({
-    candidate_name: '',
+    candidate_name: 0,
     candidate_position: '',
   })
+  const [allCandidates, setAllCandidates] = useState([])
   const [secretary, setSecretary] = useState([])
   const [wocom, setWocom] = useState([])
 
@@ -36,11 +39,76 @@ const Election = () => {
       router.push('/')
     }
   }, [])
+  // handle submit vote
+   //   const { user, dispatchAction } = userState()
+   const handleSubmit = (e) => {
+    e.preventDefault()
+    if (candidate.candidate_name === '') {
+      alert('please select a candidate')
+    }
+    // candidate.candidate_position = 'President'
+    console.log(candidate)
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Token ${user.token}`,
+      },
+    }
+    axios
+      .post(
+        'https://polls.pythonanywhere.com/api/votes/',
+        candidate,
+        config
+      )
+      .then((res) => {
+        // console.log(res.data)
+        toast.success(res.data.message)
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message)
+      })
+  }
+
   // president
   useEffect(() => {
+    // fetching all positions available
+    axios
+      .get('https://polls.pythonanywhere.com/api/polls/')
+      .then((res) => {
+        setPositions(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    // fetching all the candidates https://polls.pythonanywhere.com/api/candidates/
+    const CandidateConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Token ${user.token}`,
+      },
+    }
+    axios
+      .get(
+        'https://polls.pythonanywhere.com/api/candidates/',
+        CandidateConfig
+      )
+      .then((res) => {
+        // console.log(res.data)
+        console.log(res.data)
+        setAllCandidates(res.data)
+        toast.success(res.data.message)
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message)
+      })
+
+    // end
+
     const body = {
       positions: 'President',
     }
+
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -57,201 +125,16 @@ const Election = () => {
         setPresident(res.data)
       })
       .catch((err) => {
-        formData
         console.log(err)
       })
   }, [])
-  // wocom
-  useEffect(() => {
-    const body = {
-      positions: 'Wocom',
-    }
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-    axios
-      .post(
-        'https://comculthero.pythonanywhere.com/api/category/',
-        body,
-        config
-      )
-      .then((res) => {
-        setWocom(res.data)
-        console.log(res.data)
-      })
-      .catch((err) => {
-        formData
-        console.log(err)
-      })
-  }, [])
-
-  // secretary
-  useEffect(() => {
-    const body = {
-      positions: 'Secretary',
-    }
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-    axios
-      .post(
-        'https://comculthero.pythonanywhere.com/api/category/',
-        body,
-        config
-      )
-      .then((res) => {
-        setSecretary(res.data)
-        console.log(res.data)
-      })
-      .catch((err) => {
-        formData
-        console.log(err)
-      })
-  }, [])
-
-  // trasurer
-  useEffect(() => {
-    const body = {
-      positions: 'Trasurer',
-    }
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-    axios
-      .post(
-        'https://comculthero.pythonanywhere.com/api/category/',
-        body,
-        config
-      )
-      .then((res) => {
-        setTrasurer(res.data)
-        console.log(res.data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }, [])
-
-  //   const { user, dispatchAction } = userState()
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (candidate.candidate_name === '') {
-      alert('please select a candidate')
-    }
-    candidate.candidate_position = 'President'
-    console.log(candidate)
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Token ${user.token}`,
-      },
-    }
-    axios
-      .post(
-        'https://comculthero.pythonanywhere.com/api/vote/',
-        candidate,
-        config
-      )
-      .then((res) => {
-        // console.log(res.data)
-        toast.success(res.data.message)
-      })
-      .catch((err) => {
-        toast.error(err.response.data.message)
-      })
-  }
-  //secretary
-  const handleSecretary = (e) => {
-    e.preventDefault()
-    if (candidate.candidate_name === '') {
-      alert('please select a candidate')
-    }
-    candidate.candidate_position = 'Secretary'
-    console.log(candidate)
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Token ${user.token}`,
-      },
-    }
-    axios
-      .post(
-        'https://comculthero.pythonanywhere.com/api/vote/',
-        candidate,
-        config
-      )
-      .then((res) => {
-        toast.success(res.data.message)
-      })
-      .catch((err) => {
-        toast.error(err.response.data.message)
-      })
-  }
-  //Wocom
-  const handleWocom = (e) => {
-    e.preventDefault()
-    if (candidate.candidate_name === '') {
-      alert('please select a candidate')
-    }
-    candidate.candidate_position = 'Wocom'
-    console.log(candidate)
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Token ${user.token}`,
-      },
-    }
-    axios
-      .post(
-        'https://comculthero.pythonanywhere.com/api/vote/',
-        candidate,
-        config
-      )
-      .then((res) => {
-        toast.success(res.data.message)
-      })
-      .catch((err) => {
-        toast.error(err.response.data.message)
-      })
-  }
-  //Trasurer
-  const handleTrasurer = (e) => {
-    e.preventDefault()
-    if (candidate.candidate_name === '') {
-      alert('please select a candidate')
-    }
-    candidate.candidate_position = 'Trasurer'
-    console.log(candidate)
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Token ${user.token}`,
-      },
-    }
-    axios
-      .post(
-        'https://comculthero.pythonanywhere.com/api/vote/',
-        candidate,
-        config
-      )
-      .then((res) => {
-        toast.success(res.data.message)
-      })
-      .catch((err) => {
-        toast.error(err.response.data.message)
-      })
-  }
+  
   const Logout = (e) => {
     e.preventDefault()
     window.location.reload()
     router.push('/')
   }
+  console.log(positions)
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">
       <Head>
@@ -259,24 +142,13 @@ const Election = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className=" sticky top-0 z-50 mb-8 w-full bg-slate-700 py-7 text-lg font-bold uppercase text-gray-100 md:text-xl">
-        <ul className="flex flex-row justify-between md:px-56">
-          
-          <li>
-            {/* <Link href="/" > */}
-            <a
-              className="mr-4 cursor-pointer font-bold tracking-wider text-red-600"
-              onClick={Logout}
-            >
-              Logout
-            </a>
-            {/* </Link> */}
-          </li>
-          <li>
+      <div className=" sticky top-0 z-50 mb-8 w-full bg-slate-700 py-7  font-bold uppercase text-gray-100 md:text-xl">
+        <ul className="flex flex-row justify-between px-12 text-sm md:text-lg">
+          <li className="text-sm md:text-lg">
             {/* <Link href="/" > */}
             <a
               className="mr-4 cursor-pointer font-bold tracking-wider text-green-600"
-              onClick={(e)=>{
+              onClick={(e) => {
                 e.preventDefault()
                 router.push('Home')
               }}
@@ -287,210 +159,86 @@ const Election = () => {
           </li>
 
           <li>Student ID: {user.username}</li>
+          <li>
+            {/* <Link href="/" > */}
+            <a
+              className="mr-4 cursor-pointer font-bold tracking-wider text-red-600"
+              onClick={Logout}
+            >
+              Logout
+            </a>
+            {/* </Link> */}
+          </li>
         </ul>
       </div>
       <main className="flex w-full flex-1 flex-col items-center justify-center text-center md:px-20">
-        {!isLoading ?(
+        {!isLoading ? (
           <>
-        <h1 className=' uppercase font-bold text-center mb-6'>Candidates</h1>
-        <span className="text-3xl font-bold uppercase text-blue-700">
-          SRC Presidential Aspirant
-        </span>
-        <div className="mt-6 flex w-full flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full md:max-w-4xl">
-          {president.map((data) => (
-            <div
-              key={data.name}
-              className="mt-6 flex w-72 flex-col flex-wrap items-center justify-center rounded-xl border bg-gray-50 p-2 text-left shadow-xl "
-            >
-              <div className="relative h-64 w-full">
-                <Image
-                  src={`https://comculthero.pythonanywhere.com${data.picture}`}
-                  alt="PUC Logo"
-                  layout="fill"
-                  objectFit="contain"
-                  className="absolute z-10 h-full w-full"
-                />
-              </div>
-              <h3 className="text-2xl font-bold uppercase text-blue-700">
-                {data.name}
-              </h3>
-              <p className=" mt-4 text-justify text-xl uppercase">
-                {data.slogan}
-              </p>
-              <form className="flex flex-col" onSubmit={handleSubmit}>
-                <div className=" flex flex-row space-x-4">
-                  <label className="text-xl font-semibold capitalize">
-                    {' '}
-                    Select to vote:
-                  </label>
-                  <input
-                    type="radio"
-                    className=" mt-1 h-6 w-6 outline-none"
-                    name="candidate_name"
-                    value={data.name}
-                    onChange={handleChange}
-                  />
+           <h1 className=" mb-6 text-center font-bold uppercase">
+                  Candidates
+                </h1>
+            {positions.map((position,index) => (
+              <>
+               
+                <span className="text-3xl font-bold uppercase text-blue-700 mt-6">
+                  {position.title}
+                </span>
+                <form>
+                  <div ref={positionRef} onClick={()=>console.log(index)} />
+                </form>
+                <div className="mt-6 flex w-full flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full md:max-w-4xl">
+                {allCandidates.filter((candidate) => candidate.position===position.id).map((data) => (
+                  // {position?.candidates?.map((data) => (
+                    <div
+                      key={data.name}
+                      className="mt-6 flex w-72 h-96 flex-col flex-wrap items-center justify-between rounded-xl border bg-gray-50 p-2 text-left shadow-xl "
+                    >
+                      
+                      <div className="relative h-52 w-full">
+                        <Image
+                          src={`https://comculthero.pythonanywhere.com/media/candidates/IMG-20220609-WA0006.jpg`}
+                          alt="PUC Logo"
+                          layout="fill"
+                          objectFit="contain"
+                          className="absolute z-10 h-full w-full"
+                        />
+                      </div>
+                      <h3 className="text-l text-center font-bold uppercase text-blue-700">
+                        {data.name}
+                      </h3>
+                      <p className=" mt-4 text-justify text-xl uppercase">
+                        {data.description}
+                      </p>
+                      <form className="flex flex-col" onSubmit={handleSubmit}>
+                        <div className=" flex flex-row space-x-4">
+                          <label className="text-xl font-semibold capitalize">
+                            {' '}
+                            Select to vote:
+                          </label>
+                          <input
+                            type="radio"
+                            className=" mt-1 h-6 w-6 outline-none"
+                            name="candidate_name"
+                            value={data.id}
+                            onChange={handleChange}
+                          />
+                           
+                        </div>
+                        <button
+                          type="submit"
+                          onClick={()=>positionRef.current.click()}
+                          className=" mt-6 rounded bg-blue-700 text-white ring ring-blue-600"
+                        >
+                          Cast Vote{' '}
+                        </button>
+                      </form>
+                    </div>
+                  ))}
                 </div>
-                <button
-                  type="submit"
-                  className=" mt-6 rounded bg-blue-700 text-white ring ring-blue-600"
-                >
-                  Cast Vote{' '}
-                </button>
-              </form>
-            </div>
-          ))}
-        </div>
-        {/* wocom selections  */}
-        <span className="mt-8 text-3xl font-bold uppercase text-blue-700">
-          SRC Women's Commisioner Aspirant
-        </span>
-        <div className="mt-6 flex w-full flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full md:max-w-4xl">
-          {wocom.map((data) => (
-            <div
-              key={data.name}
-              className="mt-6 flex w-72 flex-col flex-wrap items-center justify-center rounded-xl border bg-gray-50 p-3 shadow-xl "
-            >
-              <div className="relative h-64 w-64">
-                <Image
-                  src={`https://comculthero.pythonanywhere.com${data.picture}`}
-                  alt="PUC Logo"
-                  layout="fill"
-                  objectFit="contain"
-                  className="absolute h-full w-full"
-                />
-              </div>
-              <h3 className="text-2xl font-bold uppercase text-blue-700">
-                {data.name}
-              </h3>
-              <p className=" mt-4 text-justify text-xl uppercase">
-                {data.slogan}
-              </p>
-              <form className="flex flex-col" onSubmit={handleWocom}>
-                <div className=" flex flex-row space-x-4">
-                  <label className="text-xl font-semibold capitalize">
-                    {' '}
-                    Select to vote:
-                  </label>
-                  <input
-                    type="radio"
-                    className=" mt-1 h-6 w-6 outline-none"
-                    name="candidate_name"
-                    value={data.name}
-                    onChange={handleChange}
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className=" mt-6 rounded bg-blue-700 text-white ring ring-blue-600"
-                >
-                  Cast Vote{' '}
-                </button>
-              </form>
-            </div>
-          ))}
-        </div>
-        {/* secretary */}
-        <span className="mt-8 text-3xl font-bold uppercase text-blue-700">
-          SRC Secretary Aspirant
-        </span>
-        <div className="mt-6 flex w-full flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full md:max-w-4xl">
-          {secretary.map((data) => (
-            <div
-              key={data.name}
-              className="mt-6 flex w-72 flex-wrap items-center justify-center rounded-xl border bg-gray-50 p-3 text-left shadow-xl "
-            >
-              <div className="relative h-64 w-64">
-                <Image
-                  src={`https://comculthero.pythonanywhere.com${data.picture}`}
-                  alt="PUC Logo"
-                  layout="fill"
-                  objectFit="contain"
-                  className="absolute h-full w-full"
-                />
-              </div>
-              <h3 className="text-2xl font-bold uppercase text-blue-700">
-                {data.name}
-              </h3>
-              <p className=" mt-4 text-justify text-xl uppercase">
-                {data.slogan}
-              </p>
-              <form className="flex flex-col" onSubmit={handleSecretary}>
-                <div className=" flex flex-row space-x-4">
-                  <label className="text-xl font-semibold capitalize">
-                    {' '}
-                    Select to vote:
-                  </label>
-                  <input
-                    type="radio"
-                    className=" mt-1 h-6 w-6 outline-none"
-                    name="candidate_name"
-                    value={data.name}
-                    onChange={handleChange}
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className=" mt-6 rounded bg-blue-700 text-white ring ring-blue-600"
-                >
-                  Cast Vote{' '}
-                </button>
-              </form>
-            </div>
-          ))}
-        </div>
-        {/* Trasure / */}
-        <span className="mt-8 text-3xl font-bold uppercase text-blue-700">
-          SRC Treasurer Aspirant
-        </span>
-        <div className="mt-6 flex w-full flex-wrap  items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full md:max-w-4xl">
-          {trasurer.map((data) => (
-            <div
-              key={data.name}
-              className="mt-6 flex w-72 flex-col flex-wrap items-center justify-center rounded-xl border bg-gray-50 p-3 text-left shadow-xl "
-            >
-              <div className="relative h-64 w-64">
-                <Image
-                  src={`https://comculthero.pythonanywhere.com${data.picture}`}
-                  alt="PUC Logo"
-                  layout="fill"
-                  objectFit="contain"
-                  className="absolute h-full w-full"
-                />
-              </div>
-              <h3 className="text-2xl font-bold uppercase text-blue-700">
-                {data.name}
-              </h3>
-              <p className=" mt-4 text-justify text-xl uppercase">
-                {data.slogan}
-              </p>
-              <form className="flex flex-col" onSubmit={handleTrasurer}>
-                <div className=" flex flex-row space-x-4">
-                  <label className="text-xl font-semibold capitalize">
-                    {' '}
-                    Select to vote:
-                  </label>
-                  <input
-                    type="radio"
-                    className=" mt-1 h-6 w-6 outline-none"
-                    name="candidate_name"
-                    value={data.name}
-                    onChange={handleChange}
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className=" mt-6 rounded bg-blue-700 text-white ring ring-blue-600"
-                >
-                  Cast Vote{' '}
-                </button>
-              </form>
-            </div>
-          ))}
-        </div>
-</>
-
-        ):(
+              </>
+            ))}
+          </>
+        ) : (
           <DoubleBounce size={30} color={'green'} />
         )}
       </main>

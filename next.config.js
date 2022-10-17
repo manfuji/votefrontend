@@ -4,6 +4,6 @@ module.exports = {
 }
 module.exports = {
   images: {
-    domains: ['localhost', 'comculthero.pythonanywhere.com'],
+    domains: ['localhost', 'comculthero.pythonanywhere.com','polls.pythonanywhere.com'],
   },
 }

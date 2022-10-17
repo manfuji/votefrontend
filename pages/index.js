@@ -41,7 +41,7 @@ const Home = () => {
       }
       axios
         .post(
-          'https://comculthero.pythonanywhere.com/api/login',
+          'https://polls.pythonanywhere.com/auth/login',
           formData,
           config
         )
@@ -57,6 +57,7 @@ const Home = () => {
           router.push('/Home')
         })
         .catch((err) => {
+          console.log(err.message)
           toast.error('Invalid Credentials')
         })
     }
