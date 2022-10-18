@@ -76,44 +76,48 @@ const Results = () => {
   //     })
   // }
   // end
+
+  // polling all positions
+
   // president
-  useEffect(() => {
-    // fetching all positions available
-    axios
-      .get('https://polls.pythonanywhere.com/api/polls/')
-      .then((res) => {
-        setPositions(res.data)
-        // setIsLoading(false)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+  // useEffect(() => {
+  //   // fetching all positions available
+  //   axios
+  //     .get('https://polls.pythonanywhere.com/api/polls/')
+  //     .then((res) => {
+  //       setPositions(res.data)
+  //       console.log('hellooooooo')
+  //       // setIsLoading(false)
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //     })
 
-    // fetching all the candidates https://polls.pythonanywhere.com/api/candidates/
-    // const CandidateConfig = {
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     Authorization: `Token ${user.token}`,
-    //   },
-    // }
-    // axios
-    //   .get('https://polls.pythonanywhere.com/api/candidates/', CandidateConfig)
-    //   .then((res) => {
-    //     // console.log(res.data)
-    //     console.log(res.data)
-    //     setAllCandidates(res.data)
-    //     toast.success(res.data.message)
-    //     // setIsLoading(false)
-    //   })
-    //   .catch((err) => {
-    //     toast.error(err.response.data.message)
-    //   })
+  // fetching all the candidates https://polls.pythonanywhere.com/api/candidates/
+  // const CandidateConfig = {
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     Authorization: `Token ${user.token}`,
+  //   },
+  // }
+  // axios
+  //   .get('https://polls.pythonanywhere.com/api/candidates/', CandidateConfig)
+  //   .then((res) => {
+  //     // console.log(res.data)
+  //     console.log(res.data)
+  //     setAllCandidates(res.data)
+  //     toast.success(res.data.message)
+  //     // setIsLoading(false)
+  //   })
+  //   .catch((err) => {
+  //     toast.error(err.response.data.message)
+  //   })
 
-    // end
-  }, [user])
+  // end
+  // }, [data?.data])
 
   // polling the data from the server
-  const { isLoading, data } = useQuery(
+  const { isLoading, data: allCandidatesData } = useQuery(
     'candidate',
     () => {
       const CandidateConfig = {
@@ -129,6 +133,20 @@ const Results = () => {
     },
     { refetchInterval: 10000 }
   )
+  // positions pollings
+  const { data: allPositions } = useQuery(
+    'positions',
+    () => {
+      const CandidateConfig = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Token ${user.token}`,
+        },
+      }
+      return axios.get('https://polls.pythonanywhere.com/api/polls/')
+    },
+    { refetchInterval: 10000 }
+  )
 
   const Logout = (e) => {
     e.preventDefault()
@@ -137,7 +155,7 @@ const Results = () => {
 
     router.push('/')
   }
-  console.log(positions)
+  console.log('alllllll', allCandidatesData?.data)
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">
       <Head>
@@ -180,14 +198,14 @@ const Results = () => {
             <h1 className=" mt-3 text-center text-3xl font-bold uppercase">
               Live results
             </h1>
-            {positions.map((position, index) => (
+            {allPositions?.data.map((position, index) => (
               <div key={index}>
                 <span className="mt-3 text-lg font-bold uppercase text-blue-700">
                   {position.title}
                 </span>
 
                 <div className="mt-3 flex w-full flex-wrap items-center justify-around rounded bg-gray-200 p-5 shadow-lg sm:w-full md:max-w-4xl">
-                  {data.data
+                  {allCandidatesData?.data
                     .filter((candidate) => candidate.position === position.id)
                     .map((data) => (
                       // {position?.candidates?.map((data) => (
