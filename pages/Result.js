@@ -15,7 +15,7 @@ const Results = () => {
   const router = useRouter()
   const { user, dispatchAction } = userState()
   const [candidatePosition, setCandidatePosition] = useState()
-  // const [isLoading, setIsLoading] = useState(true)
+  const [selected, setSelected] = useState(true)
   const [positions, setPositions] = useState([])
   const positionRef = useRef(null)
   const [candidate, setCandidate] = useState({

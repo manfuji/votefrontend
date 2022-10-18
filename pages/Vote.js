@@ -29,6 +29,7 @@ const Election = () => {
   const handleChange = (e) => {
     setCandidate(e.target.value)
     console.log(e.target.value)
+    setSelected(true)
   }
   // end
 
@@ -199,7 +200,7 @@ const Election = () => {
                               className=" mt-1 h-6 w-6 outline-none"
                               name={position.title}
                               value={data.id}
-                              // disabled={selected}
+                              disabled={selected}
                               onChange={handleChange}
                             />
                           </div>
