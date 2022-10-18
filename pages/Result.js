@@ -127,9 +127,8 @@ const Results = () => {
         CandidateConfig
       )
     },
-    { refetchInterval: 5000 }
+    { refetchInterval: 10000 }
   )
-  console.log(data?.data)
 
   const Logout = (e) => {
     e.preventDefault()
@@ -216,7 +215,7 @@ const Results = () => {
                             <div className=" flex flex-row items-center justify-center space-x-2">
                               <label className="text-center text-base font-bold capitalize">
                                 {' '}
-                                Total vote: {data.votes}
+                                Total vote: {data.votes} <br />
                               </label>
                               {/* <input
                               type="radio"
@@ -236,17 +235,15 @@ const Results = () => {
                           </button> */}
                           </div>
                         </div>
-                        <div className="mb-6 flex h-2 w-[90%] overflow-hidden rounded bg-gray-100 text-xs ring-1 ring-blue-600">
+                        <div className="mb-6 flex h-2 w-[90%] overflow-hidden rounded bg-yellow-100 text-xs  ring-1 ring-blue-600">
                           <div
                             style={{
-                              width: (data.votes / position.total_votes) * 100,
+                              width: `${
+                                (data.votes / position.total_votes) * 100
+                              }%`,
                             }}
-                            className="flex flex-col justify-center whitespace-nowrap bg-blue-500 text-center text-white shadow-none"
-                          >
-                            {/* <span className=" ml-2 font-light text-yellow-600 ">
-                              {position.total_votes}
-                            </span> */}
-                          </div>
+                            className={`flex flex-col justify-center whitespace-nowrap bg-blue-500 text-center text-white shadow-none`}
+                          ></div>
                         </div>
                       </div>
                     ))}
