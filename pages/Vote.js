@@ -35,7 +35,6 @@ const Election = () => {
   }
   // end
 
-
   //protected router
   useEffect(() => {
     if (user.isAuthenticated === false) {
@@ -47,7 +46,7 @@ const Election = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (candidate.candidate_name === '') {
-    toast.info('please select a candidate')
+      toast.info('please select a candidate')
     }
 
     // candidate.candidate_position = 'President'
@@ -59,24 +58,24 @@ const Election = () => {
       },
     }
     const body = {
-      option : parseInt(candidate.candidate_name)
+      option: parseInt(candidate.candidate_name),
     }
     console.log(body)
     axios
       .post('https://polls.pythonanywhere.com/api/votes/', body, config)
       .then((res) => {
         console.log(res.data.option)
-        setCandidate({candidate_name: 0})
+        setCandidate({ candidate_name: 0 })
         toast.info(res.data.message)
       })
       .catch((err) => {
         console.log(err)
-        setCandidate({candidate_name: 0})
+        setCandidate({ candidate_name: 0 })
 
-        toast.error("You already voted for this position")
+        toast.error('You already voted for this position')
       })
   }
-// end
+  // end
   // president
   useEffect(() => {
     // fetching all positions available
@@ -85,7 +84,6 @@ const Election = () => {
       .then((res) => {
         setPositions(res.data)
         setIsLoading(false)
-
       })
       .catch((err) => {
         console.log(err)
@@ -112,12 +110,11 @@ const Election = () => {
       })
 
     // end
-
-   
   }, [])
 
   const Logout = (e) => {
     e.preventDefault()
+    localStorage.clear()
     window.location.reload()
     router.push('/')
   }
@@ -126,7 +123,7 @@ const Election = () => {
     <div className="flex min-h-screen flex-col items-center justify-center">
       <Head>
         <title>Election</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/logo.png" />
       </Head>
 
       <div className=" sticky top-0 z-50 mb-8 w-full bg-slate-700 py-7  font-bold uppercase text-gray-100 md:text-xl">
@@ -158,7 +155,7 @@ const Election = () => {
           </li>
         </ul>
       </div>
-      <main className="flex w-full flex-1 space-y-6 flex-col items-center justify-center text-center md:px-20">
+      <main className="flex w-full flex-1 flex-col items-center justify-center space-y-6 text-center md:px-20">
         {!isLoading ? (
           <>
             <h1 className=" mb-6 mt-3 text-center text-3xl font-bold uppercase">
@@ -177,12 +174,12 @@ const Election = () => {
                       // {position?.candidates?.map((data) => (
                       <div
                         key={data.name}
-                        className="mt-6 flex mx-4 h-96 w-72 flex-col flex-wrap items-center justify-between rounded-xl border bg-gray-50 p-2 text-left shadow-xl "
+                        className="mx-4 mt-6 flex h-96 w-72 flex-col flex-wrap items-center justify-between rounded-xl border bg-gray-50 p-2 text-left shadow-xl "
                       >
                         <div className="relative h-44 w-full">
                           <Image
                             src={data.image}
-                            alt="PUC Logo"
+                            alt="Compsa Logo"
                             layout="fill"
                             objectFit="contain"
                             className="absolute z-10 h-full w-full"
@@ -196,17 +193,19 @@ const Election = () => {
                         </p> */}
                         <form className="flex flex-col" onSubmit={handleSubmit}>
                           <div className=" flex flex-row space-x-4">
-                            <label className="md:text-xl font-semibold capitalize">
+                            <label className="font-semibold capitalize md:text-xl">
                               {' '}
                               Select to vote:
                             </label>
                             <input
                               type="radio"
                               className=" mt-1 h-6 w-6 outline-none"
-                              name="candidate_name"
+                              name={`candidate${data.position}`}
                               value={data.id}
                               // checked={candidate.candidate_name !==null}
-                              disabled={candidate.candidate_name !==0?true:false}
+                              disabled={
+                                candidate.candidate_name !== 0 ? true : false
+                              }
                               onChange={handleChange}
                             />
                           </div>

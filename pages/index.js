@@ -7,9 +7,11 @@ import { userState } from '../components/context/context'
 import { AUTH } from '../components/context/constants'
 import Logo from './htu_logo.png'
 import { toast } from 'react-toastify'
+import { DoubleBounce } from 'better-react-spinkit'
 
 const Home = () => {
   const { user, dispatchAction } = userState()
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
   useEffect(() => {
     if (user.isAuthenticated === true) {
@@ -39,13 +41,18 @@ const Home = () => {
           'Content-Type': 'application/json',
         },
       }
+      setLoading(true)
       axios
-        .post(
-          'https://polls.pythonanywhere.com/auth/login',
-          formData,
-          config
-        )
+        .post('https://polls.pythonanywhere.com/auth/login', formData, config)
         .then((res) => {
+          setLoading(false)
+          localStorage.setItem('token', JSON.stringify(res.data.token))
+          localStorage.setItem(
+            'username',
+            JSON.stringify(res.data.user.username)
+          )
+          localStorage.setItem('isAuthenticated', JSON.stringify(true))
+
           dispatchAction({
             type: AUTH,
             payload: {
@@ -57,6 +64,8 @@ const Home = () => {
           router.push('/Home')
         })
         .catch((err) => {
+          setLoading(false)
+          toast.error(err.response.data.message)(false)
           console.log(err.message)
           toast.error('Invalid Credentials')
         })
@@ -67,11 +76,11 @@ const Home = () => {
     <div className="flex min-h-screen flex-col items-center justify-center">
       <Head>
         <title>Login</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/logo.png" />
       </Head>
 
-      <main className="flex w-full flex-1 flex-col items-center justify-center bg-slate-50 pb-20 text-center shadow-lg md:px-20">
-        <span className="text-xl font-bold capitalize text-blue-700 md:text-2xl">
+      <main className="flex w-full flex-1 flex-col items-center justify-center bg-slate-50 pb-10 text-center shadow-lg md:px-20">
+        <span className="text-lg font-semibold capitalize text-blue-700 md:text-2xl">
           Welcome {user.username}, to{' '}
           <h1 className="">
             HTU COMPUTER SCIENCE DEPARTMENT <br />( COMPSA) Voting Portal
@@ -80,10 +89,10 @@ const Home = () => {
 
         <form
           onSubmit={handleSubmit}
-          className="mt-6 flex w-full w-full flex-col flex-wrap items-center justify-around space-y-6 rounded-md  bg-gray-200 px-2 py-16 shadow-xl shadow-gray-300 sm:w-full md:max-w-2xl md:py-20 md:px-24"
+          className="mt-6 flex w-full flex-col flex-wrap items-center justify-around space-y-6 rounded-md  bg-gray-200 px-2 py-16 shadow-xl shadow-gray-300 sm:w-full md:max-w-2xl md:py-10 md:px-24"
         >
           <span className="mt-4 text-3xl font-bold">
-            <h1 className="uppercase text-blue-700">Login Form</h1>
+            <h1 className="font-bold uppercase text-blue-700">Login Form</h1>
           </span>
           <div className="relative h-20 w-80 rounded">
             <Image
@@ -137,9 +146,13 @@ const Home = () => {
               </a>
             </span>
           </div>
-          <button className="w-3/4 rounded bg-blue-600 px-16 py-2 text-xl font-bold text-white outline-none  hover:bg-blue-500 hover:shadow-lg ">
-            Login
-          </button>
+          {loading ? (
+            <DoubleBounce size={40} color="blue" />
+          ) : (
+            <button className="w-3/4 rounded bg-blue-600 px-16 py-2 text-xl font-bold text-white outline-none  hover:bg-blue-500 hover:shadow-lg ">
+              Login
+            </button>
+          )}
         </form>
       </main>
 

@@ -3,12 +3,22 @@ import Reducer from './reducer'
 
 const appData = createContext()
 const UserContext = ({ children }) => {
+  let stateToken = ''
+  let stateIsAuthenticated = ''
+  let stateUsername = ''
+
+  if (typeof window !== 'undefined') {
+    stateToken = JSON.parse(localStorage.getItem('token'))
+    stateIsAuthenticated = JSON.parse(localStorage.getItem('isAuthenticated'))
+    stateUsername = JSON.parse(localStorage.getItem('username'))
+  }
+
   // const state_token = localStorage.getItem('')
   const [user, dispatchAction] = useReducer(Reducer, {
-    token: '',
-    isAuthenticated: false,
+    token: stateToken || '',
+    isAuthenticated: stateIsAuthenticated || false,
     isAdmin: false,
-    username: '',
+    username: stateUsername || '',
   })
 
   return (

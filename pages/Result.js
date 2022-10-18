@@ -8,14 +8,14 @@ import { toast } from 'react-toastify'
 import { LOGOUT } from '../components/context/constants'
 import { userState } from '../components/context/context'
 import { DoubleBounce } from 'better-react-spinkit'
-
+import { useQuery } from 'react-query'
 import Logo from './puc.jpg'
 
 const Results = () => {
   const router = useRouter()
   const { user, dispatchAction } = userState()
   const [candidatePosition, setCandidatePosition] = useState()
-  const [isLoading, setIsLoading] = useState(true)
+  // const [isLoading, setIsLoading] = useState(true)
   const [positions, setPositions] = useState([])
   const positionRef = useRef(null)
   const [candidate, setCandidate] = useState({
@@ -35,7 +35,6 @@ const Results = () => {
   }
   // end
 
-
   //protected router
   useEffect(() => {
     if (user.isAuthenticated === false) {
@@ -44,39 +43,39 @@ const Results = () => {
   }, [])
   // handle submit vote
   //   const { user, dispatchAction } = userState()
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (candidate.candidate_name === '') {
-    toast.info('please select a candidate')
-    }
+  // const handleSubmit = (e) => {
+  //   e.preventDefault()
+  //   if (candidate.candidate_name === '') {
+  //   toast.info('please select a candidate')
+  //   }
 
-    // candidate.candidate_position = 'President'
-    console.log(candidate)
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Token ${user.token}`,
-      },
-    }
-    const body = {
-      option : parseInt(candidate.candidate_name)
-    }
-    console.log(body)
-    axios
-      .post('https://polls.pythonanywhere.com/api/votes/', body, config)
-      .then((res) => {
-        console.log(res.data.option)
-        setCandidate({candidate_name: 0})
-        toast.info(res.data.message)
-      })
-      .catch((err) => {
-        console.log(err)
-        setCandidate({candidate_name: 0})
+  //   // candidate.candidate_position = 'President'
+  //   console.log(candidate)
+  //   const config = {
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       Authorization: `Token ${user.token}`,
+  //     },
+  //   }
+  //   const body = {
+  //     option : parseInt(candidate.candidate_name)
+  //   }
+  //   console.log(body)
+  //   axios
+  //     .post('https://polls.pythonanywhere.com/api/votes/', body, config)
+  //     .then((res) => {
+  //       console.log(res.data.option)
+  //       setCandidate({candidate_name: 0})
+  //       toast.info(res.data.message)
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //       setCandidate({candidate_name: 0})
 
-        toast.error("You already voted for this position")
-      })
-  }
-// end
+  //       toast.error("You already voted for this position")
+  //     })
+  // }
+  // end
   // president
   useEffect(() => {
     // fetching all positions available
@@ -84,41 +83,59 @@ const Results = () => {
       .get('https://polls.pythonanywhere.com/api/polls/')
       .then((res) => {
         setPositions(res.data)
-        setIsLoading(false)
-
+        // setIsLoading(false)
       })
       .catch((err) => {
         console.log(err)
       })
 
     // fetching all the candidates https://polls.pythonanywhere.com/api/candidates/
-    const CandidateConfig = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Token ${user.token}`,
-      },
-    }
-    axios
-      .get('https://polls.pythonanywhere.com/api/candidates/', CandidateConfig)
-      .then((res) => {
-        // console.log(res.data)
-        console.log(res.data)
-        setAllCandidates(res.data)
-        toast.success(res.data.message)
-        setIsLoading(false)
-      })
-      .catch((err) => {
-        toast.error(err.response.data.message)
-      })
+    // const CandidateConfig = {
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     Authorization: `Token ${user.token}`,
+    //   },
+    // }
+    // axios
+    //   .get('https://polls.pythonanywhere.com/api/candidates/', CandidateConfig)
+    //   .then((res) => {
+    //     // console.log(res.data)
+    //     console.log(res.data)
+    //     setAllCandidates(res.data)
+    //     toast.success(res.data.message)
+    //     // setIsLoading(false)
+    //   })
+    //   .catch((err) => {
+    //     toast.error(err.response.data.message)
+    //   })
 
     // end
+  }, [user])
 
-   
-  }, [])
+  // polling the data from the server
+  const { isLoading, data } = useQuery(
+    'candidate',
+    () => {
+      const CandidateConfig = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Token ${user.token}`,
+        },
+      }
+      return axios.get(
+        'https://polls.pythonanywhere.com/api/candidates/',
+        CandidateConfig
+      )
+    },
+    { refetchInterval: 5000 }
+  )
+  console.log(data?.data)
 
   const Logout = (e) => {
     e.preventDefault()
+    localStorage.clear()
     window.location.reload()
+
     router.push('/')
   }
   console.log(positions)
@@ -126,7 +143,7 @@ const Results = () => {
     <div className="flex min-h-screen flex-col items-center justify-center">
       <Head>
         <title>Results</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/logo.png" />
       </Head>
 
       <div className=" sticky top-0 z-50 mb-8 w-full bg-slate-700 py-7  font-bold uppercase text-gray-100 md:text-xl">
@@ -158,28 +175,28 @@ const Results = () => {
           </li>
         </ul>
       </div>
-      <main className="flex w-full flex-1 space-y-6 flex-col items-center justify-center text-center md:px-20">
+      <main className="flex w-full flex-1 flex-col items-center justify-center space-y-6 text-center md:px-20">
         {!isLoading ? (
           <>
-            <h1 className=" mb-6 mt-3 text-center text-3xl font-bold uppercase">
-              Candidates
+            <h1 className=" mt-3 text-center text-3xl font-bold uppercase">
+              Live results
             </h1>
             {positions.map((position, index) => (
               <div key={index}>
-                <span className="mt-6 text-3xl font-bold uppercase text-blue-700">
+                <span className="mt-3 text-lg font-bold uppercase text-blue-700">
                   {position.title}
                 </span>
 
-                <div className="mt-6 flex w-full flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full md:max-w-4xl">
-                  {allCandidates
+                <div className="mt-3 flex w-full flex-wrap items-center justify-around rounded bg-gray-200 p-5 shadow-lg sm:w-full md:max-w-4xl">
+                  {data.data
                     .filter((candidate) => candidate.position === position.id)
                     .map((data) => (
                       // {position?.candidates?.map((data) => (
                       <div
                         key={data.name}
-                        className="mt-6 flex mx-4 h-80 w-72 flex-col flex-wrap items-center justify-between rounded-xl border bg-gray-50 p-2 text-left shadow-xl "
+                        className="mx-4 mt-6 flex h-44 w-64 flex-col flex-wrap items-center justify-evenly rounded-xl border bg-gray-50 p-2 text-left shadow-xl "
                       >
-                        <div className="relative h-44 w-full">
+                        <div className="relative h-16 w-14">
                           <Image
                             src={data.image}
                             alt="PUC Logo"
@@ -188,19 +205,20 @@ const Results = () => {
                             className="absolute z-10 h-full w-full"
                           />
                         </div>
-                        <h3 className="text-center font-bold uppercase text-blue-700">
-                          {data.name}
-                        </h3>
-                        {/* <p className=" mt-4 text-justify text-xl uppercase">
+                        <div>
+                          <h3 className="text-center text-xs uppercase text-blue-700">
+                            {data.name}
+                          </h3>
+                          {/* <p className=" mt-4 text-justify text-xl uppercase">
                           {data.description}
                         </p> */}
-                        <form className="flex flex-col" onSubmit={handleSubmit}>
-                          <div className=" flex flex-row space-x-2">
-                            <label className="text-xl font-bold capitalize">
-                              {' '}
-                              Total vote:{' '}{data.votes}
-                            </label>
-                            {/* <input
+                          <div className="flex flex-col text-center">
+                            <div className=" flex flex-row items-center justify-center space-x-2">
+                              <label className="text-center text-base font-bold capitalize">
+                                {' '}
+                                Total vote: {data.votes}
+                              </label>
+                              {/* <input
                               type="radio"
                               className=" mt-1 h-6 w-6 outline-none"
                               name="candidate_name"
@@ -209,14 +227,27 @@ const Results = () => {
                               disabled={candidate.candidate_name !==0?true:false}
                               onChange={handleChange}
                             /> */}
-                          </div>
-                          {/* <button
+                            </div>
+                            {/* <button
                             type="submit"
                             className=" mt-4 rounded bg-blue-700 text-white ring ring-blue-600"
                           >
                             Toa
                           </button> */}
-                        </form>
+                          </div>
+                        </div>
+                        <div className="mb-6 flex h-2 w-[90%] overflow-hidden rounded bg-gray-100 text-xs ring-1 ring-blue-600">
+                          <div
+                            style={{
+                              width: (data.votes / position.total_votes) * 100,
+                            }}
+                            className="flex flex-col justify-center whitespace-nowrap bg-blue-500 text-center text-white shadow-none"
+                          >
+                            {/* <span className=" ml-2 font-light text-yellow-600 ">
+                              {position.total_votes}
+                            </span> */}
+                          </div>
+                        </div>
                       </div>
                     ))}
                 </div>
