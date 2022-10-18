@@ -17,10 +17,9 @@ const Election = () => {
   const [candidatePosition, setCandidatePosition] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const [positions, setPositions] = useState([])
+  const [selected, setSelected] = useState(false)
   const positionRef = useRef(null)
-  const [candidate, setCandidate] = useState({
-    candidate_name: 0,
-  })
+  const [candidate, setCandidate] = useState()
   const [allCandidates, setAllCandidates] = useState([])
   const [secretary, setSecretary] = useState([])
   const [wocom, setWocom] = useState([])
@@ -28,10 +27,8 @@ const Election = () => {
   const [trasurer, setTrasurer] = useState([])
   // casting a vote chnages
   const handleChange = (e) => {
-    setCandidate({
-      ...candidate,
-      [e.target.name]: e.target.value,
-    })
+    setCandidate(e.target.value)
+    console.log(e.target.value)
   }
   // end
 
@@ -45,7 +42,7 @@ const Election = () => {
   //   const { user, dispatchAction } = userState()
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (candidate.candidate_name === '') {
+    if (candidate === '') {
       toast.info('please select a candidate')
     }
 
@@ -58,19 +55,19 @@ const Election = () => {
       },
     }
     const body = {
-      option: parseInt(candidate.candidate_name),
+      option: parseInt(candidate),
     }
     console.log(body)
     axios
       .post('https://polls.pythonanywhere.com/api/votes/', body, config)
       .then((res) => {
+        setSelected(false)
         console.log(res.data.option)
-        setCandidate({ candidate_name: 0 })
         toast.info(res.data.message)
       })
       .catch((err) => {
+        setSelected(false)
         console.log(err)
-        setCandidate({ candidate_name: 0 })
 
         toast.error('You already voted for this position')
       })
@@ -162,7 +159,7 @@ const Election = () => {
               Candidates
             </h1>
             {positions.map((position, index) => (
-              <div key={index}>
+              <form key={index} onSubmit={handleSubmit}>
                 <span className="mt-6 text-3xl font-bold uppercase text-blue-700">
                   {position.title}
                 </span>
@@ -191,7 +188,7 @@ const Election = () => {
                         {/* <p className=" mt-4 text-justify text-xl uppercase">
                           {data.description}
                         </p> */}
-                        <form className="flex flex-col" onSubmit={handleSubmit}>
+                        <div className="flex flex-col">
                           <div className=" flex flex-row space-x-4">
                             <label className="font-semibold capitalize md:text-xl">
                               {' '}
@@ -200,12 +197,9 @@ const Election = () => {
                             <input
                               type="radio"
                               className=" mt-1 h-6 w-6 outline-none"
-                              name={`candidate${data.position}`}
+                              name={position.title}
                               value={data.id}
-                              // checked={candidate.candidate_name !==null}
-                              disabled={
-                                candidate.candidate_name !== 0 ? true : false
-                              }
+                              // disabled={selected}
                               onChange={handleChange}
                             />
                           </div>
@@ -215,11 +209,11 @@ const Election = () => {
                           >
                             Cast Vote{' '}
                           </button>
-                        </form>
+                        </div>
                       </div>
                     ))}
                 </div>
-              </div>
+              </form>
             ))}
           </>
         ) : (
