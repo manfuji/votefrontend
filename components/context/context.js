@@ -6,10 +6,13 @@ const UserContext = ({ children }) => {
   let stateToken = ''
   let stateIsAuthenticated = ''
   let stateUsername = ''
+  let isAdmin = false
 
   if (typeof window !== 'undefined') {
     stateToken = JSON.parse(localStorage.getItem('token'))
     stateIsAuthenticated = JSON.parse(localStorage.getItem('isAuthenticated'))
+    isAdmin = JSON.parse(localStorage.getItem('isAdmin'))
+
     stateUsername = JSON.parse(localStorage.getItem('username'))
   }
 
@@ -17,7 +20,7 @@ const UserContext = ({ children }) => {
   const [user, dispatchAction] = useReducer(Reducer, {
     token: stateToken || '',
     isAuthenticated: stateIsAuthenticated || false,
-    isAdmin: false,
+    isAdmin: isAdmin || false,
     username: stateUsername || '',
   })
 

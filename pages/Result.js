@@ -37,7 +37,7 @@ const Results = () => {
 
   //protected router
   useEffect(() => {
-    if (user.isAuthenticated === false) {
+    if (user.isAuthenticated === false && user.isAdmin === false) {
       router.push('/')
     }
   }, [])

@@ -55,12 +55,17 @@ const Home = () => {
             JSON.stringify(res.data.user.username)
           )
           localStorage.setItem('isAuthenticated', JSON.stringify(true))
+          localStorage.setItem(
+            'isAdmin',
+            JSON.stringify(res.data.user.is_staff)
+          )
 
           dispatchAction({
             type: AUTH,
             payload: {
               token: res.data.token,
               username: res.data.user.username,
+              isAdmin: res.data.user.is_staff,
             },
           })
           toast.success('Login Successfully')
@@ -86,7 +91,7 @@ const Home = () => {
         <span className="text-lg font-semibold capitalize text-blue-700 md:text-2xl">
           Welcome {user.username}, to{' '}
           <h1 className="">
-            HTU COMPUTER SCIENCE DEPARTMENT <br />( COMPSA) Voting Portal
+            HTU COMPUTER SCIENCE DEPARTMENT <br />( COMPSSA) Voting Portal
           </h1>
         </span>
 
@@ -110,7 +115,7 @@ const Home = () => {
               Student ID :
             </label>
             <input
-              className="my-2 w-64 rounded-xl py-2 px-5 text-center placeholder-slate-400 outline-none ring-1 ring-blue-500"
+              className="my-2 w-64 rounded-xl py-2 px-5 placeholder-slate-400 outline-none ring-1 ring-blue-500"
               type="text"
               name="username"
               required
@@ -148,7 +153,7 @@ const Home = () => {
           </div>
           <div>
             <span className="cursor-pointer text-gray-700">
-              Didn't OTP?{' '}
+              Didn't have OTP?{' '}
               {/* <a
                 className="text-blue-500"
                 onClick={(e) => {
@@ -159,7 +164,7 @@ const Home = () => {
               >
                 Request
               </a> */}
-              contact Admin
+              Contact Admin
             </span>
           </div>
           {loading ? (

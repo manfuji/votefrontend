@@ -40,9 +40,7 @@ const Instruction = () => {
 
         <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
           <span className="mt-6 w-96 rounded-xl border p-6 text-left">
-            <h3 className="text-2xl font-bold text-green-700">
-              How To Vote &rarr;
-            </h3>
+            <h3 className="text-2xl font-bold text-green-700">How To Vote</h3>
             <p className="mt-4 text-xl">
               Simply select your favorate candidate to vote for, and press the
               vote button to cast your vote. scroll down and continue voting.
@@ -50,7 +48,7 @@ const Instruction = () => {
           </span>
 
           <span className="mt-6 w-96 rounded-xl border p-6 text-left ">
-            <h3 className="text-2xl font-bold text-red-700">Warning &rarr;</h3>
+            <h3 className="text-2xl font-bold text-red-700">Warning </h3>
             <p className="mt-4 text-xl">
               Please when you are done voting you can logout or check the live
               results.
@@ -67,13 +65,15 @@ const Instruction = () => {
               </a>
             </Link>
           </span>
-          <span className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600">
-            <Link href="/Result">
-              <a className="text-2xl font-bold capitalize text-blue-700">
-                Procceed to check Live Result &rarr;
-              </a>
-            </Link>
-          </span>
+          {user.isAdmin && (
+            <span className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600">
+              <Link href="/Result">
+                <a className="text-2xl font-bold capitalize text-blue-700">
+                  Procceed to check Live Result &rarr;
+                </a>
+              </Link>
+            </span>
+          )}
         </div>
       </main>
 
