@@ -8,10 +8,12 @@ import { AUTH } from '../components/context/constants'
 import Logo from './htu_logo.png'
 import { toast } from 'react-toastify'
 import { DoubleBounce } from 'better-react-spinkit'
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid'
 
 const Home = () => {
   const { user, dispatchAction } = userState()
   const [loading, setLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const router = useRouter()
   useEffect(() => {
     if (user.isAuthenticated === true) {
@@ -29,6 +31,7 @@ const Home = () => {
       [e.target.name]: e.target.value,
     })
   }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     if (formData.username.trim() === '') {
@@ -107,34 +110,46 @@ const Home = () => {
               Student ID :
             </label>
             <input
-              className="my-2 rounded-xl py-2 px-10 placeholder-slate-700 outline-none ring-1 ring-blue-500"
+              className="my-2 w-64 rounded-xl py-2 px-5 text-center placeholder-slate-400 outline-none ring-1 ring-blue-500"
               type="text"
               name="username"
               required
-              placeholder="0322022"
+              placeholder="032202223"
               value={formData.username}
               onChange={handleChange}
             />
           </div>
 
           <div>
-            <label className="mr-7 mb-3 text-xl font-bold uppercase tracking-widest text-gray-700 md:mb-0">
+            <label className="mr-7 mb-3 text-center text-xl font-bold uppercase tracking-widest text-gray-700 md:mb-0">
               Password :
             </label>
             <input
-              className="my-2 rounded-xl py-2 px-10 placeholder-slate-700 outline-none ring-1 ring-blue-500"
-              type="password"
+              className="my-2 w-64 rounded-xl py-2 px-5 text-base placeholder-slate-400 outline-none ring-1 ring-blue-500"
+              type={showPassword ? 'text' : 'password'}
               name="password"
               required
               placeholder="OTP+compssa@2022"
               value={formData.password}
               onChange={handleChange}
             />
+            {formData.password.trim('').length > 0 && (
+              <span
+                className="-ml-12 text-sm"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <EyeIcon className="inline h-8 w-8 text-blue-600" />
+                ) : (
+                  <EyeSlashIcon className="inline h-8 w-8 text-blue-600" />
+                )}
+              </span>
+            )}
           </div>
           <div>
             <span className="cursor-pointer text-gray-700">
               Didn't OTP?{' '}
-              <a
+              {/* <a
                 className="text-blue-500"
                 onClick={(e) => {
                   e.preventDefault()
@@ -143,7 +158,8 @@ const Home = () => {
                 }}
               >
                 Request
-              </a>
+              </a> */}
+              contact Admin
             </span>
           </div>
           {loading ? (

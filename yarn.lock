@@ -30,6 +30,11 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@heroicons/react@^2.0.12":
+  version "2.0.12"
+  resolved "https://registry.yarnpkg.com/@heroicons/react/-/react-2.0.12.tgz#7e5a16c82512f89a30266dd36f8b8465b3e3e216"
+  integrity sha512-FZxKh3i9aKIDxyALTgIpSF2t6V6/eZfF5mRu41QlwkX3Oxzecdm1u6dpft6PQGxIBwO7TKYWaMAYYL8mp/EaOg==
+
 "@next/env@12.1.4":
   version "12.1.4"
   resolved "https://registry.npmjs.org/@next/env/-/env-12.1.4.tgz"
