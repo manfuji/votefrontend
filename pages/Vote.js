@@ -171,10 +171,10 @@ const Election = () => {
                 <div className="mt-6 flex w-full flex-wrap items-center justify-around rounded bg-gray-200 p-10 shadow-lg sm:w-full md:max-w-4xl">
                   {allCandidates
                     .filter((candidate) => candidate.position === position.id)
-                    .map((data) => (
+                    .map((data, index) => (
                       // {position?.candidates?.map((data) => (
                       <div
-                        key={data.name}
+                        key={data.id}
                         className="mx-4 mt-6 flex h-96 w-72 flex-col flex-wrap items-center justify-between rounded-xl border bg-gray-50 p-2 text-left shadow-xl "
                       >
                         <div className="relative h-44 w-full">
@@ -192,32 +192,64 @@ const Election = () => {
                         {/* <p className=" mt-4 text-justify text-xl uppercase">
                           {data.description}
                         </p> */}
-                        <div className="flex flex-col">
-                          <div className=" flex flex-row space-x-4">
-                            <label className="font-semibold capitalize md:text-xl">
-                              {' '}
-                              Select to vote:
-                            </label>
-                            <input
-                              type="radio"
-                              className=" mt-1 h-6 w-6 outline-none"
-                              name={position.title}
-                              value={data.id}
-                              disabled={selected}
-                              onChange={handleChange}
-                            />
-                          </div>
 
-                          <button
-                            disabled={voting}
-                            type="submit"
-                            className={` mt-4 rounded bg-blue-700 text-white ring ring-blue-600 ${
-                              voting && 'bg-gray-300'
-                            }`}
-                          >
-                            Cast Vote{' '}
-                          </button>
-                        </div>
+                        {data.isSingle ? (
+                          <div className="flex flex-col">
+                            {index === 1 && (
+                              <div className=" flex flex-row space-x-4">
+                                <label className="font-semibold capitalize md:text-xl">
+                                  {' '}
+                                  Select to vote No:
+                                </label>
+                                <input
+                                  type="radio"
+                                  className=" mt-1 h-6 w-6 outline-none"
+                                  name={position.title}
+                                  value={data.id}
+                                  disabled={selected}
+                                  onChange={handleChange}
+                                />
+                              </div>
+                            )}
+
+                            <button
+                              disabled={voting}
+                              type="submit"
+                              className={` mt-4 rounded bg-blue-700 text-white ring ring-blue-600 ${
+                                voting && 'bg-gray-300'
+                              }`}
+                            >
+                              Cast Vote
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col">
+                            <div className=" flex flex-row space-x-4">
+                              <label className="font-semibold capitalize md:text-xl">
+                                {' '}
+                                Select to vote :
+                              </label>
+                              <input
+                                type="radio"
+                                className=" mt-1 h-6 w-6 outline-none"
+                                name={position.title}
+                                value={data.id}
+                                disabled={selected}
+                                onChange={handleChange}
+                              />
+                            </div>
+
+                            <button
+                              disabled={voting}
+                              type="submit"
+                              className={` mt-4 rounded bg-blue-700 text-white ring ring-blue-600 ${
+                                voting && 'bg-gray-300'
+                              }`}
+                            >
+                              Cast Vote{' '}
+                            </button>
+                          </div>
+                        )}
                       </div>
                     ))}
                 </div>

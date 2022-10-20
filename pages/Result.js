@@ -207,10 +207,10 @@ const Results = () => {
                 <div className="mt-3 flex w-full flex-wrap items-center justify-around rounded bg-gray-200 p-5 shadow-lg sm:w-full md:max-w-4xl">
                   {allCandidatesData?.data
                     .filter((candidate) => candidate.position === position.id)
-                    .map((data) => (
+                    .map((data, index) => (
                       // {position?.candidates?.map((data) => (
                       <div
-                        key={data.name}
+                        key={data.id}
                         className="mx-4 mt-6 flex h-44 w-64 flex-col flex-wrap items-center justify-evenly rounded-xl border bg-gray-50 p-2 text-left shadow-xl "
                       >
                         <div className="relative h-16 w-14">
@@ -231,10 +231,25 @@ const Results = () => {
                         </p> */}
                           <div className="flex flex-col text-center">
                             <div className=" flex flex-row items-center justify-center space-x-2">
-                              <label className="text-center text-base font-bold capitalize">
-                                {' '}
-                                Total vote: {data.votes} <br />
-                              </label>
+                              {data.isSingle ? (
+                                <label className="text-center text-base font-bold capitalize">
+                                  {index === 1 ? (
+                                    <>
+                                      Total vote for No: {data.votes} <br />
+                                    </>
+                                  ) : (
+                                    <>
+                                      Total vote for Yes: {data.votes} <br />
+                                    </>
+                                  )}
+                                </label>
+                              ) : (
+                                <label className="text-center text-base font-bold capitalize">
+                                  {' '}
+                                  Total vote: {data.votes} <br />
+                                </label>
+                              )}
+
                               {/* <input
                               type="radio"
                               className=" mt-1 h-6 w-6 outline-none"
