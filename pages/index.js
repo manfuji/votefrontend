@@ -126,7 +126,7 @@ const Home = () => {
               type="password"
               name="password"
               required
-              placeholder="Index Number + OTP"
+              placeholder="OTP+compssa@2022"
               value={formData.password}
               onChange={handleChange}
             />

@@ -14,7 +14,7 @@ import Logo from './puc.jpg'
 const Election = () => {
   const router = useRouter()
   const { user, dispatchAction } = userState()
-  const [candidatePosition, setCandidatePosition] = useState()
+  const [voting, setvoting] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [positions, setPositions] = useState([])
   const [selected, setSelected] = useState(false)
@@ -55,6 +55,7 @@ const Election = () => {
         Authorization: `Token ${user.token}`,
       },
     }
+    setvoting(true)
     const body = {
       option: parseInt(candidate),
     }
@@ -65,10 +66,12 @@ const Election = () => {
         setSelected(false)
         console.log(res.data.option)
         toast.info(res.data.message)
+        setvoting(false)
       })
       .catch((err) => {
         setSelected(false)
         console.log(err)
+        setvoting(false)
 
         toast.error('You already voted for this position')
       })
@@ -204,9 +207,13 @@ const Election = () => {
                               onChange={handleChange}
                             />
                           </div>
+
                           <button
+                            disabled={voting}
                             type="submit"
-                            className=" mt-4 rounded bg-blue-700 text-white ring ring-blue-600"
+                            className={` mt-4 rounded bg-blue-700 text-white ring ring-blue-600 ${
+                              voting && 'bg-gray-300'
+                            }`}
                           >
                             Cast Vote{' '}
                           </button>

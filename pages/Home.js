@@ -27,7 +27,7 @@ const Instruction = () => {
         <span className="text-xl font-bold capitalize text-blue-700 md:text-2xl">
           Welcome {user.username}, to{' '}
           <h1 className="">
-            HTU COMPUTER SCIENCE DEPARTMENT <br />( COMPSA) Voting Portal
+            HTU COMPUTER SCIENCE DEPARTMENT <br />( COMPSSA) Voting Portal
           </h1>
         </span>
 
@@ -45,7 +45,7 @@ const Instruction = () => {
             </h3>
             <p className="mt-4 text-xl">
               Simply select your favorate candidate to vote for, and press the
-              vote button to cast your vote. scroll down and continue voting
+              vote button to cast your vote. scroll down and continue voting.
             </p>
           </span>
 
