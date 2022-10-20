@@ -22,14 +22,22 @@ const Election = () => {
   const [candidate, setCandidate] = useState()
   const [allCandidates, setAllCandidates] = useState([])
   const [secretary, setSecretary] = useState([])
-  const [wocom, setWocom] = useState([])
+  const [choice, setChoice] = useState(true)
 
-  const [trasurer, setTrasurer] = useState([])
   // casting a vote chnages
   const handleChange = (e) => {
     setCandidate(e.target.value)
     console.log(e.target.value)
     setSelected(true)
+  }
+  // end
+
+  // casting a vote chnages
+  const ChangeHandler = (e) => {
+    setCandidate(e.target.value)
+    console.log(e.target.value)
+    setSelected(true)
+    setChoice(false)
   }
   // end
 
@@ -58,6 +66,7 @@ const Election = () => {
     setvoting(true)
     const body = {
       option: parseInt(candidate),
+      choice,
     }
     console.log(body)
     axios
@@ -174,7 +183,7 @@ const Election = () => {
                     .map((data, index) => (
                       // {position?.candidates?.map((data) => (
                       <div
-                        key={data.id}
+                        key={data.name}
                         className="mx-4 mt-6 flex h-96 w-72 flex-col flex-wrap items-center justify-between rounded-xl border bg-gray-50 p-2 text-left shadow-xl "
                       >
                         <div className="relative h-44 w-full">
@@ -193,13 +202,13 @@ const Election = () => {
                           {data.description}
                         </p> */}
 
-                        {data.isSingle ? (
-                          <div className="flex flex-col">
-                            {index === 1 && (
+                        <div className="flex flex-col">
+                          {data.isSingle ? (
+                            <>
                               <div className=" flex flex-row space-x-4">
                                 <label className="font-semibold capitalize md:text-xl">
                                   {' '}
-                                  Select to vote No:
+                                  Select to vote Yes :
                                 </label>
                                 <input
                                   type="radio"
@@ -210,20 +219,22 @@ const Election = () => {
                                   onChange={handleChange}
                                 />
                               </div>
-                            )}
-
-                            <button
-                              disabled={voting}
-                              type="submit"
-                              className={` mt-4 rounded bg-blue-700 text-white ring ring-blue-600 ${
-                                voting && 'bg-gray-300'
-                              }`}
-                            >
-                              Cast Vote
-                            </button>
-                          </div>
-                        ) : (
-                          <div className="flex flex-col">
+                              <div className=" flex flex-row space-x-4">
+                                <label className="pr-1.5 font-semibold capitalize md:text-xl">
+                                  {' '}
+                                  Select to vote No :
+                                </label>
+                                <input
+                                  type="radio"
+                                  className=" mt-1 h-6 w-6 outline-none"
+                                  name={position.title}
+                                  value={data.id}
+                                  disabled={selected}
+                                  onChange={ChangeHandler}
+                                />
+                              </div>
+                            </>
+                          ) : (
                             <div className=" flex flex-row space-x-4">
                               <label className="font-semibold capitalize md:text-xl">
                                 {' '}
@@ -238,18 +249,18 @@ const Election = () => {
                                 onChange={handleChange}
                               />
                             </div>
+                          )}
 
-                            <button
-                              disabled={voting}
-                              type="submit"
-                              className={` mt-4 rounded bg-blue-700 text-white ring ring-blue-600 ${
-                                voting && 'bg-gray-300'
-                              }`}
-                            >
-                              Cast Vote{' '}
-                            </button>
-                          </div>
-                        )}
+                          <button
+                            disabled={voting}
+                            type="submit"
+                            className={` mt-4 rounded bg-blue-700 text-white ring ring-blue-600 ${
+                              voting && 'bg-gray-300'
+                            }`}
+                          >
+                            Cast Vote{' '}
+                          </button>
+                        </div>
                       </div>
                     ))}
                 </div>
