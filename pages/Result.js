@@ -204,14 +204,16 @@ const Results = () => {
                   {position.title}
                 </span>
 
-                <div className="mt-3 flex w-full flex-wrap items-center justify-around rounded bg-gray-200 p-5 shadow-lg sm:w-full md:max-w-4xl">
+                <div className="justify-betweene mt-3 flex w-full flex-wrap items-center rounded bg-gray-200 p-5 shadow-lg sm:w-full md:max-w-4xl">
                   {allCandidatesData?.data
                     .filter((candidate) => candidate.position === position.id)
                     .map((data, index) => (
                       // {position?.candidates?.map((data) => (
                       <div
                         key={data.id}
-                        className="mx-4 mt-6 flex h-44 w-64 flex-col flex-wrap items-center justify-evenly rounded-xl border bg-gray-50 p-2 text-left shadow-xl "
+                        className={`mx-4 mt-6 flex h-52 w-64 ${
+                          data.isSingle && ' h-56'
+                        } flex-col flex-wrap items-center justify-evenly rounded-xl border bg-gray-50 p-2 text-left shadow-xl `}
                       >
                         <div className="relative h-16 w-14">
                           <Image
@@ -222,62 +224,68 @@ const Results = () => {
                             className="absolute z-10 h-full w-full"
                           />
                         </div>
-                        <div>
-                          <h3 className="text-center text-xs uppercase text-blue-700">
-                            {data.name}
-                          </h3>
-                          {/* <p className=" mt-4 text-justify text-xl uppercase">
+
+                        <h3 className="text-center text-xs uppercase text-blue-700">
+                          {data.name}
+                        </h3>
+                        {/* <p className=" mt-4 text-justify text-xl uppercase">
                           {data.description}
                         </p> */}
-                          <div className="flex flex-col text-center">
-                            <div className=" flex flex-row items-center justify-center space-x-2">
-                              {data.isSingle ? (
-                                <label className="text-center text-base font-bold capitalize">
-                                  {index === 1 ? (
-                                    <>
-                                      Total vote for No: {data.votes} <br />
-                                    </>
-                                  ) : (
-                                    <>
-                                      Total vote for Yes: {data.votes} <br />
-                                    </>
-                                  )}
-                                </label>
-                              ) : (
-                                <label className="text-center text-base font-bold capitalize">
-                                  {' '}
-                                  Total vote: {data.votes} <br />
-                                </label>
-                              )}
-
-                              {/* <input
-                              type="radio"
-                              className=" mt-1 h-6 w-6 outline-none"
-                              name="candidate_name"
-                              value={data.id}
-                              // checked={candidate.candidate_name !==null}
-                              disabled={candidate.candidate_name !==0?true:false}
-                              onChange={handleChange}
-                            /> */}
-                            </div>
-                            {/* <button
-                            type="submit"
-                            className=" mt-4 rounded bg-blue-700 text-white ring ring-blue-600"
-                          >
-                            Toa
-                          </button> */}
+                        <div className="flex flex-col text-center">
+                          <div className=" flex flex-row items-center justify-center space-x-2">
+                            <label className="text-center text-base font-bold capitalize">
+                              Total vote for {data.isSingle && 'Yes'} :{' '}
+                              {data.votes} <br />
+                            </label>
                           </div>
                         </div>
-                        <div className="mb-6 flex h-2 w-[90%] overflow-hidden rounded bg-yellow-100 text-xs  ring-1 ring-blue-600">
-                          <div
-                            style={{
-                              width: `${
-                                (data.votes / position.total_votes) * 100
-                              }%`,
-                            }}
-                            className={`flex flex-col justify-center whitespace-nowrap bg-blue-500 text-center text-white shadow-none`}
-                          ></div>
-                        </div>
+                        {data.isSingle ? (
+                          <>
+                            <div className="mb-6 flex h-2 w-[90%] overflow-hidden rounded bg-yellow-100 text-xs  ring-1 ring-blue-600">
+                              <div
+                                style={{
+                                  width: `${
+                                    (data.votes / position.total_votes) * 100
+                                  }%`,
+                                }}
+                                className={`flex flex-col justify-center whitespace-nowrap bg-blue-500 text-center text-white shadow-none`}
+                              ></div>
+                            </div>
+                            <>
+                              <div className="flex flex-col text-center">
+                                <div className=" flex flex-row items-center justify-center space-x-2">
+                                  <label className="text-center text-base font-bold capitalize">
+                                    Total vote for No :{' '}
+                                    {position.total_votes - data.votes} <br />
+                                  </label>
+                                </div>
+                              </div>
+                              <div className="mb-6 flex h-2 w-[90%] overflow-hidden rounded bg-yellow-100 text-xs  ring-1 ring-blue-600">
+                                <div
+                                  style={{
+                                    width: `${
+                                      ((position.total_votes - data.votes) /
+                                        position.total_votes) *
+                                      100
+                                    }%`,
+                                  }}
+                                  className={`flex flex-col justify-center whitespace-nowrap bg-blue-500 text-center text-white shadow-none`}
+                                ></div>
+                              </div>
+                            </>
+                          </>
+                        ) : (
+                          <div className="mb-6 flex h-2 w-[90%] overflow-hidden rounded bg-yellow-100 text-xs  ring-1 ring-blue-600">
+                            <div
+                              style={{
+                                width: `${
+                                  (data.votes / position.total_votes) * 100
+                                }%`,
+                              }}
+                              className={`flex flex-col justify-center whitespace-nowrap bg-blue-500 text-center text-white shadow-none`}
+                            ></div>
+                          </div>
+                        )}
                       </div>
                     ))}
                 </div>
