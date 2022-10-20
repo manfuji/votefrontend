@@ -215,7 +215,7 @@ const Results = () => {
                           data.isSingle && ' h-56'
                         } flex-col flex-wrap items-center justify-evenly rounded-xl border bg-gray-50 p-2 text-left shadow-xl `}
                       >
-                        <div className="relative h-16 w-14">
+                        <div className="relative h-16 w-24">
                           <Image
                             src={data.image}
                             alt="PUC Logo"
@@ -241,7 +241,7 @@ const Results = () => {
                         </div>
                         {data.isSingle ? (
                           <>
-                            <div className="mb-6 flex h-2 w-[90%] overflow-hidden rounded bg-yellow-100 text-xs  ring-1 ring-blue-600">
+                            <div className="mb-3 flex h-2 w-[90%] overflow-hidden rounded bg-yellow-100 text-xs  ring-1 ring-blue-600">
                               <div
                                 style={{
                                   width: `${
