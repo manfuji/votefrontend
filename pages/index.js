@@ -153,7 +153,7 @@ const Home = () => {
           </div>
           <div>
             <span className="cursor-pointer text-gray-700">
-              Dodn't have OTP?{' '}
+              Don't have OTP?{' '}
               {/* <a
                 className="text-blue-500"
                 onClick={(e) => {
