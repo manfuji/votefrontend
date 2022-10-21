@@ -163,7 +163,8 @@ const Home = () => {
               >
                 Request
               </a> */}
-              Contact Admin
+              Contact Admin <br />
+              <span className="text-sm text-gray-700">On: 024 581 0822</span>
             </span>
           </div>
           {loading ? (
