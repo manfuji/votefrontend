@@ -9,7 +9,7 @@ import { LOGOUT } from '../components/context/constants'
 import { userState } from '../components/context/context'
 import { DoubleBounce } from 'better-react-spinkit'
 import { useQuery } from 'react-query'
-import Logo from './puc.jpg'
+import Logo from './htu_logo.png'
 
 const Results = () => {
   const router = useRouter()
@@ -304,7 +304,7 @@ const Results = () => {
           rel="noopener noreferrer"
         >
           Powered by{' '}
-          <Image src={Logo} alt="Vercel Logo" width={50} height={50} />
+          <Image src={Logo} alt="Vercel Logo" width={150} height={50} />
         </a>
       </footer>
     </div>

@@ -9,7 +9,7 @@ import { LOGOUT } from '../components/context/constants'
 import { userState } from '../components/context/context'
 import { DoubleBounce } from 'better-react-spinkit'
 
-import Logo from './puc.jpg'
+import Logo from './htu_logo.png'
 
 const Election = () => {
   const router = useRouter()
@@ -279,7 +279,7 @@ const Election = () => {
           rel="noopener noreferrer"
         >
           Powered by{' '}
-          <Image src={Logo} alt="Vercel Logo" width={50} height={50} />
+          <Image src={Logo} alt="Vercel Logo" width={150} height={50} />
         </a>
       </footer>
     </div>
