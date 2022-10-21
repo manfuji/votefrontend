@@ -73,7 +73,6 @@ const Home = () => {
         })
         .catch((err) => {
           setLoading(false)
-          toast.error(err.response.data.message)(false)
           console.log(err.message)
           toast.error('Invalid Credentials')
         })
